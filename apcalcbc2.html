@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calculus BC — Complete Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMath()"></script>
+<style>
+:root {
+  --bg:#070a10; --surface:#0d1120; --s2:#141928; --s3:#1c2338;
+  --border:#242d45; --borderl:#2e3a58;
+  --gold:#e8b84b; --blue:#5b9bd5; --green:#4cba88; --red:#e0706a; --purple:#9b7fd4;
+  --text:#ddd5c5; --muted:#7e8aa4; --dim:#4a5570;
+  --sw:268px; --r:10px; --mob-bar:54px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.7;min-height:100vh;overflow-x:hidden}
+
+/* ── KaTeX overrides ── */
+.katex{font-size:1.1em;color:#fff}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.katex-display>.katex{color:#fff}
+
+/* ── Mobile top bar ── */
+#mob-bar{
+  display:none;position:fixed;top:0;left:0;right:0;height:var(--mob-bar);
+  background:var(--surface);border-bottom:1px solid var(--border);
+  z-index:200;align-items:center;justify-content:space-between;padding:0 16px;
+}
+#mob-bar .mob-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold)}
+#mob-bar .mob-home{font-size:12px;color:var(--muted);padding:6px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all .18s}
+#mob-bar .mob-home:hover{color:var(--gold);border-color:var(--gold)}
+#ham{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:5px}
+#ham span{display:block;width:22px;height:2px;background:var(--text);border-radius:1px;transition:all .25s}
+#ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+#ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── Overlay ── */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;opacity:0;transition:opacity .3s}
+#overlay.show{opacity:1}
+
+/* ── Sidebar ── */
+#sidebar{
+  position:fixed;top:0;left:0;width:var(--sw);height:100vh;
+  background:var(--surface);border-right:1px solid var(--border);
+  overflow-y:auto;z-index:100;display:flex;flex-direction:column;
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--borderl);border-radius:2px}
+.sb-head{padding:28px 22px 20px;border-bottom:1px solid var(--border)}
+.sb-head .logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold)}
+.sb-head .sub{font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
+.sb-nav{padding:14px 0 40px}
+.nav-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:6px 22px 4px;margin-top:8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 22px;cursor:pointer;border-left:3px solid transparent;transition:all .18s;color:var(--muted);font-size:13.5px}
+.nav-item:hover{background:var(--s2);color:var(--text)}
+.nav-item.active{background:linear-gradient(90deg,rgba(232,184,75,.08),transparent);border-left-color:var(--gold);color:var(--gold);font-weight:500}
+.nav-num{width:22px;height:22px;border-radius:5px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;flex-shrink:0;color:var(--dim);transition:all .18s}
+.nav-item.active .nav-num{background:rgba(232,184,75,.15);color:var(--gold)}
+
+/* ── Main ── */
+#main{margin-left:var(--sw);min-height:100vh}
+.unit-page{display:none;animation:fadeIn .28s ease}
+.unit-page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Unit hero ── */
+.unit-hero{padding:56px 60px 44px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--surface) 0%,var(--bg) 100%);position:relative;overflow:hidden}
+.unit-hero::before{content:attr(data-num);position:absolute;right:40px;top:10px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:700;color:rgba(232,184,75,.04);line-height:1;pointer-events:none;user-select:none}
+.unit-tag{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.25);padding:4px 12px;border-radius:20px;margin-bottom:16px;font-weight:500}
+.unit-title{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;line-height:1.15;color:#fff;margin-bottom:12px}
+.unit-desc{font-size:15px;color:var(--muted);max-width:560px;line-height:1.6}
+
+/* ── Content ── */
+.unit-content{padding:48px 60px 80px}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff;margin:48px 0 20px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sec-title::before{content:'';display:inline-block;width:4px;height:24px;background:var(--gold);border-radius:2px;flex-shrink:0}
+.sec-title:first-child{margin-top:0}
+.subsec-title{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin:28px 0 12px}
+p{margin-bottom:14px;color:var(--text)}
+
+/* ── Formula card ── */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin:14px 0 20px}
+.fgrid.one{grid-template-columns:1fr}
+.fgrid.two{grid-template-columns:1fr 1fr}
+.fgrid.three{grid-template-columns:1fr 1fr 1fr}
+.fc{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r);padding:16px 18px}
+.fc.b{border-left-color:var(--blue)}
+.fc.g{border-left-color:var(--green)}
+.fc.r{border-left-color:var(--red)}
+.fc.p{border-left-color:var(--purple)}
+.flbl{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:10px}
+.flbl.gd{color:var(--gold)}.flbl.bl{color:var(--blue)}.flbl.gr{color:var(--green)}
+.fmath{padding:4px 0;line-height:1.8}
+.fnote{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+
+/* ── Display formula ── */
+.disp-formula{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;text-align:center;margin:16px 0}
+.disp-formula .dlbl{display:block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+
+/* ── Theorem card ── */
+.thm{background:var(--s2);border:1px solid var(--borderl);border-radius:var(--r);padding:20px 24px;margin:14px 0;position:relative;overflow:hidden}
+.thm::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:var(--r) var(--r) 0 0}
+.thm.b::before{background:linear-gradient(90deg,var(--blue),transparent)}
+.thm.g::before{background:linear-gradient(90deg,var(--green),transparent)}
+.thm.p::before{background:linear-gradient(90deg,var(--purple),transparent)}
+.thm-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--gold);margin-bottom:10px}
+.thm.b .thm-name{color:var(--blue)}.thm.g .thm-name{color:var(--green)}.thm.p .thm-name{color:var(--purple)}
+.thm-body{font-size:14px;color:var(--text);line-height:1.75}
+.thm-body strong{color:#fff;font-weight:500}
+
+/* ── Tip / warn ── */
+.tip{background:rgba(76,186,136,.07);border:1px solid rgba(76,186,136,.25);border-radius:var(--r);padding:14px 18px;margin:12px 0;font-size:13.5px}
+.tip::before{content:'💡  '}
+.warn{background:rgba(224,112,106,.07);border:1px solid rgba(224,112,106,.25);border-radius:var(--r);padding:14px 18px;margin:12px 0;font-size:13.5px}
+.warn::before{content:'⚠️  '}
+
+/* ── Table ── */
+.ftbl{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14px}
+.ftbl th{background:var(--s3);color:var(--gold);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:11px 14px;text-align:left;border-bottom:2px solid var(--borderl);font-weight:600}
+.ftbl td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ftbl tr:last-child td{border-bottom:none}
+.ftbl tr:hover td{background:rgba(255,255,255,.018)}
+.ftbl .fx{font-family:'JetBrains Mono',monospace;font-size:13px}
+.ftbl .gfx{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold)}
+.ftbl .cond{color:var(--muted);font-size:12px}
+
+/* ── Steps ── */
+.steps{counter-reset:step;margin:12px 0}
+.step{display:flex;gap:14px;align-items:flex-start;margin-bottom:11px;font-size:14px}
+.step::before{counter-increment:step;content:counter(step);min-width:26px;height:26px;background:rgba(232,184,75,.12);border:1px solid rgba(232,184,75,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--gold);font-family:'JetBrains Mono',monospace;flex-shrink:0;margin-top:1px}
+
+/* ── Tag ── */
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:.07em;margin-left:6px;font-family:'DM Sans',sans-serif}
+.tag-bc{background:rgba(155,127,212,.2);color:var(--purple);border:1px solid rgba(155,127,212,.3)}
+.tag-k{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.25)}
+
+/* ══════════════════════════════
+   ACCORDION / DEEP DIVE
+══════════════════════════════ */
+.acc{margin:10px 0 18px}
+.acc-btn{
+  display:flex;align-items:center;gap:8px;width:100%;text-align:left;
+  background:rgba(91,155,213,.07);border:1px solid rgba(91,155,213,.2);
+  border-radius:var(--r);padding:11px 16px;cursor:pointer;
+  font-size:13px;font-weight:500;color:var(--blue);
+  transition:all .18s;font-family:'DM Sans',sans-serif;
+}
+.acc-btn:hover{background:rgba(91,155,213,.12);border-color:rgba(91,155,213,.35)}
+.acc-btn.open{border-radius:var(--r) var(--r) 0 0;border-bottom-color:transparent;background:rgba(91,155,213,.12)}
+.acc-arrow{margin-left:auto;transition:transform .22s;font-size:11px}
+.acc-btn.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{
+  background:rgba(91,155,213,.04);border:1px solid rgba(91,155,213,.2);border-top:none;
+  border-radius:0 0 var(--r) var(--r);padding:0 20px;
+  max-height:0;overflow:hidden;transition:max-height .35s ease, padding .25s ease;
+}
+.acc-body.open{max-height:1200px;padding:18px 20px}
+.acc-section{margin-bottom:14px}
+.acc-section:last-child{margin-bottom:0}
+.acc-h{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:6px}
+.acc-p{font-size:13.5px;color:var(--text);line-height:1.7}
+.acc-p .hl{color:var(--gold);font-weight:500}
+.acc-code{background:var(--s3);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;margin:6px 0;line-height:1.7;color:#fff}
+.acc-warn{font-size:13px;color:var(--red);padding:8px 12px;background:rgba(224,112,106,.08);border-radius:6px;border:1px solid rgba(224,112,106,.2);margin-top:6px}
+.acc-warn::before{content:'⚠ '}
+
+/* ══════════════════════════════
+   HOME PAGE
+══════════════════════════════ */
+.home-hero{min-height:100vh;padding:80px;display:flex;flex-direction:column;justify-content:center;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(232,184,75,.04) 0%,transparent 70%)}
+.home-eye{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-weight:500}
+.home-title{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:700;line-height:1.08;color:#fff;margin-bottom:20px}
+.home-title span{color:var(--gold)}
+.home-sub{font-size:16px;color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:48px}
+.ucards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:880px}
+.ucard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.ucard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .22s}
+.ucard:hover{border-color:var(--borderl);transform:translateY(-2px)}
+.ucard:hover::after{transform:scaleX(1)}
+.ucard-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);font-weight:500;margin-bottom:6px}
+.ucard-t{font-size:12.5px;color:var(--text);line-height:1.4;font-weight:500}
+
+/* ══════════════════════════════
+   RESPONSIVE — MOBILE
+══════════════════════════════ */
+@media(max-width:860px){
+  #mob-bar{display:flex}
+  #sidebar{transform:translateX(calc(-1 * var(--sw)));top:0}
+  #sidebar.open{transform:translateX(0)}
+  #overlay{display:block}
+  #main{margin-left:0;padding-top:var(--mob-bar)}
+  .unit-hero{padding:28px 20px 24px}
+  .unit-hero::before{display:none}
+  .unit-title{font-size:32px}
+  .unit-content{padding:28px 18px 60px}
+  .home-hero{padding:36px 20px 60px;min-height:auto}
+  .home-title{font-size:42px}
+  .ucards{grid-template-columns:repeat(2,1fr)}
+  .fgrid.two,.fgrid.three{grid-template-columns:1fr}
+  .sec-title{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile bar -->
+<div id="mob-bar">
+  <button id="ham" aria-label="Menu" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mob-title">AP Calc BC</div>
+  <div class="mob-home" onclick="showPage('home');closeSidebar()">⌂ Home</div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sb-head">
+    <div class="logo" style="cursor:pointer" onclick="showPage('home');closeSidebar()">AP Calc BC</div>
+    <div class="sub">Complete Study Guide</div>
+  </div>
+  <div class="sb-nav">
+    <div class="nav-lbl">Overview</div>
+    <div class="nav-item active" onclick="nav('home')"><div class="nav-num">⌂</div>Home</div>
+    <div class="nav-lbl">Units</div>
+    <div class="nav-item" onclick="nav('u1')"><div class="nav-num">1</div>Limits &amp; Continuity</div>
+    <div class="nav-item" onclick="nav('u2')"><div class="nav-num">2</div>Basic Differentiation</div>
+    <div class="nav-item" onclick="nav('u3')"><div class="nav-num">3</div>Advanced Differentiation</div>
+    <div class="nav-item" onclick="nav('u4')"><div class="nav-num">4</div>Contextual Applications</div>
+    <div class="nav-item" onclick="nav('u5')"><div class="nav-num">5</div>Analytical Applications</div>
+    <div class="nav-item" onclick="nav('u6')"><div class="nav-num">6</div>Integration</div>
+    <div class="nav-item" onclick="nav('u7')"><div class="nav-num">7</div>Differential Equations</div>
+    <div class="nav-item" onclick="nav('u8')"><div class="nav-num">8</div>Applications of Integration</div>
+    <div class="nav-item" onclick="nav('u9')"><div class="nav-num">9</div>Parametric, Polar &amp; Vectors</div>
+    <div class="nav-item" onclick="nav('u10')"><div class="nav-num">10</div>Sequences &amp; Series</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="unit-page active">
+  <div class="home-hero">
+    <div class="home-eye">AP Calculus BC · Complete Reference</div>
+    <h1 class="home-title">Every Formula.<br>Every Theorem.<br><span>Every Topic.</span></h1>
+    <p class="home-sub">10 units. Every formula, theorem, and technique — with deep-dive explanations, worked examples, and common mistake warnings.</p>
+    <div class="ucards">
+      <div class="ucard" onclick="showPage('u1')"><div class="ucard-n">Unit 1</div><div class="ucard-t">Limits &amp; Continuity</div></div>
+      <div class="ucard" onclick="showPage('u2')"><div class="ucard-n">Unit 2</div><div class="ucard-t">Basic Differentiation</div></div>
+      <div class="ucard" onclick="showPage('u3')"><div class="ucard-n">Unit 3</div><div class="ucard-t">Advanced Differentiation</div></div>
+      <div class="ucard" onclick="showPage('u4')"><div class="ucard-n">Unit 4</div><div class="ucard-t">Contextual Applications</div></div>
+      <div class="ucard" onclick="showPage('u5')"><div class="ucard-n">Unit 5</div><div class="ucard-t">Analytical Applications</div></div>
+      <div class="ucard" onclick="showPage('u6')"><div class="ucard-n">Unit 6</div><div class="ucard-t">Integration</div></div>
+      <div class="ucard" onclick="showPage('u7')"><div class="ucard-n">Unit 7</div><div class="ucard-t">Differential Equations</div></div>
+      <div class="ucard" onclick="showPage('u8')"><div class="ucard-n">Unit 8</div><div class="ucard-t">Applications of Integration</div></div>
+      <div class="ucard" onclick="showPage('u9')"><div class="ucard-n">Unit 9</div><div class="ucard-t">Parametric, Polar &amp; Vectors</div></div>
+      <div class="ucard" onclick="showPage('u10')"><div class="ucard-n">Unit 10</div><div class="ucard-t">Sequences &amp; Series</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 1: LIMITS & CONTINUITY
+══════════════════════════════════════════════ -->
+<div id="u1" class="unit-page">
+  <div class="unit-hero" data-num="1">
+    <div class="unit-tag">Unit 1</div>
+    <h1 class="unit-title">Limits &amp; Continuity</h1>
+    <p class="unit-desc">The foundation of calculus. Formal definitions, limit laws, special trig limits, continuity, IVT, and the Squeeze Theorem.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Informal &amp; Formal Definition of a Limit</div>
+    <p>The limit of \(f(x)\) as \(x \to c\) equals \(L\) means \(f(x)\) gets arbitrarily close to \(L\) as \(x\) gets close (but never equal) to \(c\).</p>
+    <div class="thm">
+      <div class="thm-name">ε–δ Formal Definition</div>
+      <div class="thm-body">
+        \(\displaystyle\lim_{x \to c} f(x) = L\) means: for every \(\varepsilon > 0\), there exists \(\delta > 0\) such that
+        $$0 < |x - c| < \delta \implies |f(x) - L| < \varepsilon$$
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Understanding ε–δ &amp; why limits exclude the point <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">What ε and δ actually mean</div>
+          <div class="acc-p">Think of it as a game: your opponent picks any tolerance \(\varepsilon\) (how close \(f(x)\) must get to \(L\)). You win if you can find a neighborhood of radius \(\delta\) around \(c\) that forces \(f(x)\) within \(\varepsilon\) of \(L\). If you can always win, the limit is \(L\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Why we write 0 &lt; |x − c|</div>
+          <div class="acc-p">The strict inequality \(0 < |x-c|\) means \(x \neq c\). The limit describes behavior <span class="hl">near</span> \(c\), not at it. \(f(c)\) may be undefined, or completely different from \(L\) — the limit doesn't care.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">AP Exam tip</div>
+          <div class="acc-p">You'll rarely need to prove limits using ε–δ on the AP exam. But you must understand that the limit is about <span class="hl">approach behavior</span>, not the function's value at the point.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Limit Laws</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Sum / Difference</div><div class="fmath">\(\lim[f \pm g] = \lim f \pm \lim g\)</div></div>
+      <div class="fc"><div class="flbl">Constant Multiple</div><div class="fmath">\(\lim[c \cdot f(x)] = c \cdot \lim f(x)\)</div></div>
+      <div class="fc"><div class="flbl">Product</div><div class="fmath">\(\lim[f \cdot g] = \lim f \cdot \lim g\)</div></div>
+      <div class="fc"><div class="flbl">Quotient</div><div class="fmath">\(\displaystyle\lim\frac{f}{g} = \frac{\lim f}{\lim g}, \quad \lim g \neq 0\)</div></div>
+      <div class="fc"><div class="flbl">Power</div><div class="fmath">\(\lim[f(x)]^n = [\lim f(x)]^n\)</div></div>
+      <div class="fc"><div class="flbl">Composition</div><div class="fmath">\(\lim_{x\to c} f(g(x)) = f\!\left(\lim_{x\to c} g(x)\right)\)</div><div class="fnote">only if \(f\) is continuous at \(\lim g\)</div></div>
+    </div>
+
+    <div class="sec-title">Special Limits — Memorize These</div>
+    <div class="fgrid three">
+      <div class="fc"><div class="flbl gd">Trig #1 <span class="tag tag-k">KEY</span></div><div class="fmath">\(\displaystyle\lim_{x \to 0} \frac{\sin x}{x} = 1\)</div></div>
+      <div class="fc"><div class="flbl gd">Trig #2 <span class="tag tag-k">KEY</span></div><div class="fmath">\(\displaystyle\lim_{x \to 0} \frac{1 - \cos x}{x} = 0\)</div></div>
+      <div class="fc"><div class="flbl gd">Natural Base</div><div class="fmath">\(\displaystyle\lim_{n \to \infty}\!\left(1 + \frac{1}{n}\right)^n = e\)</div></div>
+      <div class="fc"><div class="flbl">General Form</div><div class="fmath">\(\displaystyle\lim_{x \to 0}(1+x)^{1/x} = e\)</div></div>
+      <div class="fc"><div class="flbl">Exponential</div><div class="fmath">\(\displaystyle\lim_{x \to 0} \frac{e^x - 1}{x} = 1\)</div></div>
+      <div class="fc"><div class="flbl">Logarithm</div><div class="fmath">\(\displaystyle\lim_{x \to 0} \frac{\ln(1+x)}{x} = 1\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Why sin(x)/x → 1 and how to use it <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Geometric proof sketch</div>
+          <div class="acc-p">For small \(x > 0\), compare areas: \(\text{triangle} \le \text{sector} \le \text{bigger triangle}\). This gives \(\cos x \le \frac{\sin x}{x} \le \frac{1}{\cos x}\). As \(x \to 0\), both sides → 1, so by the Squeeze Theorem, \(\frac{\sin x}{x} \to 1\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Using it on the exam</div>
+          <div class="acc-p">Any limit of the form \(\dfrac{\sin(u)}{u}\) as \(u \to 0\) equals 1. For \(\dfrac{\sin(3x)}{x}\), multiply and divide by 3 to get \(3 \cdot \dfrac{\sin(3x)}{3x} \to 3\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Example</div>
+          <div class="acc-code">\(\displaystyle\lim_{x \to 0} \frac{\sin(5x)}{2x} = \frac{5}{2}\lim_{x \to 0}\frac{\sin(5x)}{5x} = \frac{5}{2} \cdot 1 = \frac{5}{2}\)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">One-Sided Limits</div>
+    <div class="disp-formula">
+      <span class="dlbl">Two-sided limit exists if and only if</span>
+      $$\lim_{x \to c} f(x) = L \iff \lim_{x \to c^-} f(x) = L \text{ and } \lim_{x \to c^+} f(x) = L$$
+    </div>
+
+    <div class="sec-title">Limits at Infinity &amp; Asymptotes</div>
+    <div class="fgrid two">
+      <div class="fc b"><div class="flbl bl">Rational Functions — Degree Rule</div>
+        <div class="fmath" style="font-size:13.5px">
+          \(\deg(\text{num}) < \deg(\text{den})\): limit \(= 0\)<br>
+          \(\deg(\text{num}) = \deg(\text{den})\): limit \(= \frac{\text{lead coeff}}{\text{lead coeff}}\)<br>
+          \(\deg(\text{num}) > \deg(\text{den})\): limit \(= \pm\infty\)
+        </div>
+      </div>
+      <div class="fc b"><div class="flbl bl">Growth Hierarchy (as \(x \to \infty\))</div>
+        <div class="fmath">\(\ln x \ll x^n \ll a^x \ll x! \ll x^x\)</div>
+      </div>
+    </div>
+
+    <div class="sec-title">Squeeze Theorem</div>
+    <div class="thm g">
+      <div class="thm-name">Squeeze Theorem</div>
+      <div class="thm-body">If \(g(x) \le f(x) \le h(x)\) near \(x = c\), and \(\displaystyle\lim_{x \to c} g(x) = \lim_{x \to c} h(x) = L\), then \(\displaystyle\lim_{x \to c} f(x) = L\).</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Squeeze Theorem examples &amp; when to use it <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Classic example</div>
+          <div class="acc-code">\(\displaystyle\lim_{x \to 0} x^2 \sin\!\left(\frac{1}{x}\right) = 0\)
+Since \(-1 \le \sin(1/x) \le 1\), we have \(-x^2 \le x^2\sin(1/x) \le x^2\).
+Both bounds \(\to 0\), so the limit \(= 0\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">When to use it</div>
+          <div class="acc-p">Use Squeeze whenever you see a <span class="hl">bounded function</span> (like \(\sin\), \(\cos\)) multiplied by something going to zero. The bounded part is "squeezed" to zero.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Continuity</div>
+    <div class="thm">
+      <div class="thm-name">Three Conditions for Continuity at \(x = c\)</div>
+      <div class="thm-body">
+        1. \(f(c)\) is <strong>defined</strong><br>
+        2. \(\displaystyle\lim_{x \to c} f(x)\) <strong>exists</strong><br>
+        3. \(\displaystyle\lim_{x \to c} f(x) = f(c)\)<br><br>
+        All three must hold. Fail any one → discontinuity at \(c\).
+      </div>
+    </div>
+    <div class="fgrid three">
+      <div class="fc"><div class="flbl">Removable (Hole)</div><div class="fmath" style="font-size:13px">Limit exists but \(\neq f(c)\). "Fixable" by redefining \(f(c)\).</div></div>
+      <div class="fc r"><div class="flbl">Jump</div><div class="fmath" style="font-size:13px">\(\lim_{c^-} \neq \lim_{c^+}\). Both one-sided limits exist but differ.</div></div>
+      <div class="fc r"><div class="flbl">Infinite (Asymptote)</div><div class="fmath" style="font-size:13px">\(\lim = \pm\infty\). Vertical asymptote at \(x = c\).</div></div>
+    </div>
+
+    <div class="sec-title">Intermediate Value Theorem (IVT)</div>
+    <div class="thm">
+      <div class="thm-name">Intermediate Value Theorem</div>
+      <div class="thm-body">If \(f\) is <strong>continuous</strong> on \([a, b]\) and \(M\) is any value between \(f(a)\) and \(f(b)\), then there exists at least one \(c \in (a, b)\) such that \(f(c) = M\).</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Using IVT to prove roots exist + exam setups <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Proving a zero exists</div>
+          <div class="acc-p">If \(f(a) < 0\) and \(f(b) > 0\) (or vice versa) and \(f\) is continuous, then \(0\) is between \(f(a)\) and \(f(b)\), so IVT guarantees a root \(c \in (a,b)\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Typical AP question</div>
+          <div class="acc-code">"Show that f(x) = x³ − 2x − 5 has a root on [2, 3]."
+f(2) = 8 − 4 − 5 = −1 < 0
+f(3) = 27 − 6 − 5 = 16 > 0
+f is continuous (polynomial), so by IVT, ∃ c ∈ (2,3) with f(c) = 0. ✓</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Common mistakes</div>
+          <div class="acc-warn">IVT guarantees existence, NOT uniqueness. Always verify continuity first. IVT cannot tell you the exact value of \(c\).</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 2: BASIC DIFFERENTIATION
+══════════════════════════════════════════════ -->
+<div id="u2" class="unit-page">
+  <div class="unit-hero" data-num="2">
+    <div class="unit-tag">Unit 2</div>
+    <h1 class="unit-title">Basic Differentiation</h1>
+    <p class="unit-desc">Definition of the derivative, all core rules, and the complete derivative tables for trig, exponential, and logarithmic functions.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Definition of the Derivative</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Limit Definition</div><div class="fmath">\(\displaystyle f'(a) = \lim_{h \to 0} \frac{f(a+h)-f(a)}{h}\)</div></div>
+      <div class="fc"><div class="flbl gd">Alternate Form</div><div class="fmath">\(\displaystyle f'(a) = \lim_{x \to a} \frac{f(x)-f(a)}{x-a}\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Using the limit definition step-by-step <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Example: Find f'(x) for f(x) = x²</div>
+          <div class="acc-code">\(f'(x) = \lim_{h \to 0} \frac{(x+h)^2 - x^2}{h}\)
+\(= \lim_{h \to 0} \frac{x^2 + 2xh + h^2 - x^2}{h}\)
+\(= \lim_{h \to 0} \frac{2xh + h^2}{h} = \lim_{h \to 0} (2x + h) = 2x\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Key steps</div>
+          <div class="acc-p">1. Expand \(f(x+h)\). 2. Subtract \(f(x)\). 3. Factor \(h\) from numerator. 4. Cancel \(h\). 5. Take limit.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Differentiability vs Continuity</div>
+          <div class="acc-p">Differentiable \(\Rightarrow\) continuous. But continuous does <span class="hl">NOT</span> imply differentiable. Fails at: corners, cusps, vertical tangents, jumps.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Core Differentiation Rules</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Constant Rule</div><div class="fmath">\(\dfrac{d}{dx}[c] = 0\)</div></div>
+      <div class="fc"><div class="flbl gd">Power Rule <span class="tag tag-k">MOST USED</span></div><div class="fmath">\(\dfrac{d}{dx}[x^n] = nx^{n-1}\)</div></div>
+      <div class="fc"><div class="flbl">Constant Multiple</div><div class="fmath">\(\dfrac{d}{dx}[c \cdot f] = c \cdot f'(x)\)</div></div>
+      <div class="fc"><div class="flbl">Sum / Difference</div><div class="fmath">\(\dfrac{d}{dx}[f \pm g] = f'(x) \pm g'(x)\)</div></div>
+    </div>
+
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Product Rule <span class="tag tag-k">KEY</span></div>
+        <div class="fmath">\(\dfrac{d}{dx}[u \cdot v] = u'v + uv'\)</div>
+        <div class="fnote">"First d-Second plus Second d-First"</div>
+      </div>
+      <div class="fc"><div class="flbl gd">Quotient Rule <span class="tag tag-k">KEY</span></div>
+        <div class="fmath">\(\dfrac{d}{dx}\!\left[\dfrac{u}{v}\right] = \dfrac{u'v - uv'}{v^2}\)</div>
+        <div class="fnote">"Low dHigh minus High dLow, over Low squared"</div>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Product &amp; Quotient Rule examples + common errors <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Product Rule example</div>
+          <div class="acc-code">Differentiate \(f(x) = x^2 \sin x\)
+\(f'(x) = (2x)(\sin x) + (x^2)(\cos x) = 2x\sin x + x^2\cos x\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Quotient Rule example</div>
+          <div class="acc-code">Differentiate \(g(x) = \dfrac{x^2}{e^x}\)
+\(g'(x) = \dfrac{(2x)(e^x) - (x^2)(e^x)}{(e^x)^2} = \dfrac{e^x(2x - x^2)}{e^{2x}} = \dfrac{x(2-x)}{e^x}\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Common mistake</div>
+          <div class="acc-warn">Quotient rule: the numerator is \(u'v - uv'\), NOT \(uv' - u'v\). The derivative of the top goes first in the numerator.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Derivatives of Trigonometric Functions</div>
+    <table class="ftbl">
+      <tr><th>f(x)</th><th>f'(x)</th><th>Memory tip</th></tr>
+      <tr><td class="fx">\(\sin x\)</td><td class="gfx">\(\cos x\)</td><td></td></tr>
+      <tr><td class="fx">\(\cos x\)</td><td class="gfx">\(-\sin x\)</td><td></td></tr>
+      <tr><td class="fx">\(\tan x\)</td><td class="gfx">\(\sec^2 x\)</td><td></td></tr>
+      <tr><td class="fx">\(\cot x\)</td><td class="gfx">\(-\csc^2 x\)</td><td>Negative sign</td></tr>
+      <tr><td class="fx">\(\sec x\)</td><td class="gfx">\(\sec x \tan x\)</td><td>"sec tan"</td></tr>
+      <tr><td class="fx">\(\csc x\)</td><td class="gfx">\(-\csc x \cot x\)</td><td>Negative, "csc cot"</td></tr>
+    </table>
+    <div class="tip">The "co-functions" (cos, cot, csc) all have a negative sign in their derivatives. Remember: co = negative.</div>
+
+    <div class="sec-title">Exponential &amp; Logarithmic Derivatives</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Natural Exponential</div><div class="fmath">\(\dfrac{d}{dx}[e^x] = e^x\)</div><div class="fnote">Only function equal to its own derivative.</div></div>
+      <div class="fc"><div class="flbl">General Exponential</div><div class="fmath">\(\dfrac{d}{dx}[a^x] = a^x \ln a\)</div></div>
+      <div class="fc"><div class="flbl gd">Natural Log</div><div class="fmath">\(\dfrac{d}{dx}[\ln x] = \dfrac{1}{x}, \quad x > 0\)</div></div>
+      <div class="fc"><div class="flbl">General Log</div><div class="fmath">\(\dfrac{d}{dx}[\log_a x] = \dfrac{1}{x \ln a}\)</div></div>
+      <div class="fc"><div class="flbl">Absolute Value Log</div><div class="fmath">\(\dfrac{d}{dx}[\ln|x|] = \dfrac{1}{x}, \quad x \neq 0\)</div></div>
+    </div>
+
+    <div class="sec-title">Tangent &amp; Normal Lines</div>
+    <div class="fgrid two">
+      <div class="fc b"><div class="flbl bl">Tangent Line at \((a, f(a))\)</div><div class="fmath">\(y - f(a) = f'(a)(x - a)\)</div></div>
+      <div class="fc b"><div class="flbl bl">Normal Line at \((a, f(a))\)</div><div class="fmath">\(y - f(a) = -\dfrac{1}{f'(a)}(x - a)\)</div><div class="fnote">Perpendicular to tangent; slope is negative reciprocal.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 3: ADVANCED DIFFERENTIATION
+══════════════════════════════════════════════ -->
+<div id="u3" class="unit-page">
+  <div class="unit-hero" data-num="3">
+    <div class="unit-tag">Unit 3</div>
+    <h1 class="unit-title">Advanced Differentiation</h1>
+    <p class="unit-desc">Chain rule, implicit differentiation, derivatives of inverse functions, all six inverse trig derivatives, and logarithmic differentiation.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Chain Rule</div>
+    <div class="disp-formula">
+      <span class="dlbl">Chain Rule — Composite Functions</span>
+      $$\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)$$
+    </div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Leibniz Form</div><div class="fmath">\(\dfrac{dy}{dx} = \dfrac{dy}{du} \cdot \dfrac{du}{dx}\)</div></div>
+      <div class="fc"><div class="flbl">Chain + Power</div><div class="fmath">\(\dfrac{d}{dx}[u^n] = nu^{n-1} \cdot u'\)</div></div>
+      <div class="fc"><div class="flbl">Chain + Trig</div><div class="fmath">\(\dfrac{d}{dx}[\sin u] = \cos u \cdot u'\)</div></div>
+      <div class="fc"><div class="flbl">Chain + Exp</div><div class="fmath">\(\dfrac{d}{dx}[e^u] = e^u \cdot u'\)</div></div>
+      <div class="fc"><div class="flbl">Chain + Log</div><div class="fmath">\(\dfrac{d}{dx}[\ln u] = \dfrac{u'}{u}\)</div></div>
+      <div class="fc"><div class="flbl">General Power</div><div class="fmath">\(\dfrac{d}{dx}[a^u] = a^u \ln a \cdot u'\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Chain rule step-by-step, nested chains, and tricky examples <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">The "peel the onion" method</div>
+          <div class="acc-p">Identify the outermost function. Differentiate it, leaving the inside alone. Then multiply by the derivative of the inside. Keep repeating for nested chains.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Example: simple chain</div>
+          <div class="acc-code">f(x) = sin(x³)
+Outer: sin(·), derivative = cos(·)
+Inner: x³, derivative = 3x²
+f'(x) = cos(x³) · 3x²</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Example: nested (triple chain)</div>
+          <div class="acc-code">f(x) = e^{sin(x²)}
+Layer 1: e^(·), stays as e^{sin(x²)}
+Layer 2: sin(·) → cos(·) = cos(x²)
+Layer 3: x² → 2x
+f'(x) = e^{sin(x²)} · cos(x²) · 2x</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Common mistake</div>
+          <div class="acc-warn">Forgetting to multiply by the inner derivative! d/dx[sin(x²)] ≠ cos(x²). You must multiply by 2x.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Implicit Differentiation</div>
+    <div class="steps">
+      <div class="step">Differentiate every term with respect to \(x\). Terms with \(y\) get an extra factor of \(\frac{dy}{dx}\) (chain rule).</div>
+      <div class="step">Collect all \(\frac{dy}{dx}\) terms on one side.</div>
+      <div class="step">Factor out \(\frac{dy}{dx}\) and divide.</div>
+    </div>
+    <div class="fc"><div class="flbl gd">Key Pattern</div><div class="fmath">\(\dfrac{d}{dx}[y^n] = n\, y^{n-1} \cdot \dfrac{dy}{dx}\)</div><div class="fnote">Example: \(\frac{d}{dx}[x^2 + y^2] = 2x + 2y\frac{dy}{dx} = 0 \implies \frac{dy}{dx} = -\frac{x}{y}\)</div></div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Implicit differentiation worked example + second derivative <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Example: Find dy/dx for x³ + y³ = 6xy</div>
+          <div class="acc-code">Differentiate both sides:
+3x² + 3y²(dy/dx) = 6y + 6x(dy/dx)
+Group dy/dx terms:
+3y²(dy/dx) − 6x(dy/dx) = 6y − 3x²
+dy/dx(3y² − 6x) = 6y − 3x²
+dy/dx = (6y − 3x²)/(3y² − 6x) = (2y − x²)/(y² − 2x)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Finding d²y/dx² implicitly</div>
+          <div class="acc-p">Differentiate dy/dx implicitly again. Substitute back the expression for dy/dx at the end. This is tested on the AP exam.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Inverse Function Derivative Theorem</div>
+    <div class="thm">
+      <div class="thm-name">Inverse Function Derivative</div>
+      <div class="thm-body">If \(f\) and \(f^{-1}\) are inverse functions and \(f\) is differentiable:<br>
+      $$(f^{-1})'(x) = \frac{1}{f'(f^{-1}(x))}$$
+      Equivalently: \(\displaystyle\frac{dx}{dy} = \frac{1}{dy/dx}\)</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Inverse function derivative — AP exam style problems <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Classic AP question format</div>
+          <div class="acc-code">"f(3) = 7 and f'(3) = 4. Find (f⁻¹)'(7)."
+Since f(3) = 7, we know f⁻¹(7) = 3.
+(f⁻¹)'(7) = 1/f'(f⁻¹(7)) = 1/f'(3) = 1/4</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">The key insight</div>
+          <div class="acc-p">The input to \((f^{-1})'\) tells you the output of \(f\). Find where \(f\) produces that output — that's where you evaluate \(f'\).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Derivatives of Inverse Trig Functions</div>
+    <table class="ftbl">
+      <tr><th>f(x)</th><th>f'(x)</th><th>Domain</th></tr>
+      <tr><td class="fx">\(\arcsin x\)</td><td class="gfx">\(\dfrac{1}{\sqrt{1-x^2}}\)</td><td class="cond">\(|x| < 1\)</td></tr>
+      <tr><td class="fx">\(\arccos x\)</td><td class="gfx">\(-\dfrac{1}{\sqrt{1-x^2}}\)</td><td class="cond">\(|x| < 1\)</td></tr>
+      <tr><td class="fx">\(\arctan x\)</td><td class="gfx">\(\dfrac{1}{1+x^2}\)</td><td class="cond">all \(x\)</td></tr>
+      <tr><td class="fx">\(\text{arccot}\, x\)</td><td class="gfx">\(-\dfrac{1}{1+x^2}\)</td><td class="cond">all \(x\)</td></tr>
+      <tr><td class="fx">\(\text{arcsec}\, x\)</td><td class="gfx">\(\dfrac{1}{|x|\sqrt{x^2-1}}\)</td><td class="cond">\(|x| > 1\)</td></tr>
+      <tr><td class="fx">\(\text{arccsc}\, x\)</td><td class="gfx">\(-\dfrac{1}{|x|\sqrt{x^2-1}}\)</td><td class="cond">\(|x| > 1\)</td></tr>
+    </table>
+    <div class="tip">With chain rule: \(\dfrac{d}{dx}[\arctan(u)] = \dfrac{u'}{1+u^2}\). Apply same pattern to all six. The "co" versions (arccos, arccot, arccsc) are all negative.</div>
+
+    <div class="sec-title">Logarithmic Differentiation</div>
+    <p>Use when differentiating complex products/quotients or variable-base exponentials like \(x^{\sin x}\).</p>
+    <div class="steps">
+      <div class="step">Take \(\ln\) of both sides: \(\ln y = \ln[f(x)]\)</div>
+      <div class="step">Simplify using log properties: \(\ln(ab) = \ln a + \ln b\), \(\ln(a^n) = n\ln a\)</div>
+      <div class="step">Differentiate both sides implicitly: \(\dfrac{y'}{y} = [\cdots]\)</div>
+      <div class="step">Solve: \(y' = y \cdot [\cdots]\), then substitute \(y = f(x)\)</div>
+    </div>
+    <div class="fc p"><div class="flbl">Classic: \(y = x^x\)</div><div class="fmath">\(\ln y = x\ln x \implies \dfrac{y'}{y} = \ln x + 1 \implies y' = x^x(\ln x + 1)\)</div></div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 4: CONTEXTUAL APPLICATIONS
+══════════════════════════════════════════════ -->
+<div id="u4" class="unit-page">
+  <div class="unit-hero" data-num="4">
+    <div class="unit-tag">Unit 4</div>
+    <h1 class="unit-title">Contextual Applications of Differentiation</h1>
+    <p class="unit-desc">Motion along a line, related rates, linearization, and L'Hôpital's Rule for all indeterminate forms.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Motion Along a Line</div>
+    <div class="fgrid three">
+      <div class="fc"><div class="flbl gd">Position</div><div class="fmath">\(s(t)\) or \(x(t)\)</div></div>
+      <div class="fc"><div class="flbl gd">Velocity</div><div class="fmath">\(v(t) = s'(t)\)</div></div>
+      <div class="fc"><div class="flbl gd">Acceleration</div><div class="fmath">\(a(t) = v'(t) = s''(t)\)</div></div>
+      <div class="fc b"><div class="flbl bl">Speed</div><div class="fmath">\(|v(t)|\) (always \(\ge 0\))</div></div>
+      <div class="fc g"><div class="flbl gr">Speeding Up</div><div class="fmath">\(v\) and \(a\) have the same sign</div></div>
+      <div class="fc r"><div class="flbl">Slowing Down</div><div class="fmath">\(v\) and \(a\) have opposite signs</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Displacement vs distance, direction changes, and motion analysis <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Displacement vs. Total Distance</div>
+          <div class="acc-p"><span class="hl">Displacement</span> = \(\int_a^b v(t)\,dt\) — can be negative (net change in position).<br><span class="hl">Total distance</span> = \(\int_a^b |v(t)|\,dt\) — always positive.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Finding when particle changes direction</div>
+          <div class="acc-code">1. Solve v(t) = 0 to find candidates.
+2. Check that v CHANGES SIGN at that t.
+   v goes + → − : particle reverses direction (was moving right, now left)
+   v goes − → + : particle reverses (was left, now right)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Example motion analysis</div>
+          <div class="acc-code">s(t) = t³ − 6t² + 9t
+v(t) = 3t² − 12t + 9 = 3(t−1)(t−3) = 0 at t = 1, 3
+a(t) = 6t − 12
+
+At t = 1: v = 0, a = −6 → particle stops, then moves left
+At t = 2: v < 0, a = 0 → moving left, not speeding/slowing (inflection of v)
+At t = 3: v = 0, a = 6 → particle stops, then moves right</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Related Rates</div>
+    <div class="steps">
+      <div class="step">Draw a diagram. Label all quantities that change with time as variables.</div>
+      <div class="step">Write an equation relating the variables (geometry, trig, Pythagorean theorem…).</div>
+      <div class="step">Differentiate both sides with respect to \(t\). Every variable gets a rate \(\frac{d(\cdot)}{dt}\).</div>
+      <div class="step">Substitute known values (only after differentiating!) and solve for the unknown rate.</div>
+    </div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Circle Area</div><div class="fmath">\(A = \pi r^2 \implies \dfrac{dA}{dt} = 2\pi r \cdot \dfrac{dr}{dt}\)</div></div>
+      <div class="fc"><div class="flbl">Sphere Volume</div><div class="fmath">\(V = \tfrac{4}{3}\pi r^3 \implies \dfrac{dV}{dt} = 4\pi r^2 \cdot \dfrac{dr}{dt}\)</div></div>
+      <div class="fc"><div class="flbl">Pythagorean (Ladder)</div><div class="fmath">\(a^2 + b^2 = c^2\)<br>\(2a\dot{a} + 2b\dot{b} = 2c\dot{c}\)</div></div>
+      <div class="fc"><div class="flbl">Cone Volume</div><div class="fmath">\(V = \tfrac{1}{3}\pi r^2 h\)<br>Use similar triangles to eliminate one variable first.</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Classic related rates problems fully worked <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Ladder sliding down a wall</div>
+          <div class="acc-code">10 ft ladder: foot sliding out at 2 ft/s. How fast is top falling when foot is 6 ft from wall?
+x² + y² = 100 → 2x(dx/dt) + 2y(dy/dt) = 0
+When x = 6: y = √(100−36) = 8
+2(6)(2) + 2(8)(dy/dt) = 0
+dy/dt = −24/16 = −3/2 ft/s (falling at 1.5 ft/s)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Common mistake</div>
+          <div class="acc-warn">Never substitute known values BEFORE differentiating. The values describe a snapshot in time — after differentiation is the right moment.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Linear Approximation (Linearization)</div>
+    <div class="disp-formula">
+      <span class="dlbl">Linearization at \(x = a\)</span>
+      $$L(x) = f(a) + f'(a)(x - a)$$
+    </div>
+    <div class="fc"><div class="flbl">Differential</div><div class="fmath">\(dy = f'(x)\,dx \approx \Delta y\)</div><div class="fnote">For small \(dx\), the differential approximates the actual change in \(y\).</div></div>
+
+    <div class="sec-title">L'Hôpital's Rule <span class="tag tag-k">KEY</span></div>
+    <div class="thm">
+      <div class="thm-name">L'Hôpital's Rule</div>
+      <div class="thm-body">If \(\lim \dfrac{f(x)}{g(x)}\) gives \(\dfrac{0}{0}\) or \(\dfrac{\infty}{\infty}\), then:
+      $$\lim \frac{f(x)}{g(x)} = \lim \frac{f'(x)}{g'(x)}$$
+      provided the right-side limit exists.</div>
+    </div>
+    <table class="ftbl">
+      <tr><th>Form</th><th>Strategy</th></tr>
+      <tr><td class="fx">\(0/0,\ \infty/\infty\)</td><td>Apply L'Hôpital directly</td></tr>
+      <tr><td class="fx">\(0 \cdot \infty\)</td><td>Rewrite as \(0/(1/\infty)\) or \(\infty/(1/0)\), then L'Hôpital</td></tr>
+      <tr><td class="fx">\(\infty - \infty\)</td><td>Combine fractions or rationalize, then L'Hôpital</td></tr>
+      <tr><td class="fx">\(1^\infty,\ 0^0,\ \infty^0\)</td><td>Take \(\ln\), apply L'Hôpital to \(\ln\) form, exponentiate answer</td></tr>
+    </table>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: L'Hôpital worked examples for every indeterminate form <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">0/0 form</div>
+          <div class="acc-code">\(\lim_{x \to 0} \frac{\sin x}{x} = \frac{\cos x}{1}\Big|_{x=0} = 1\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">∞/∞ form</div>
+          <div class="acc-code">\(\lim_{x \to \infty} \frac{\ln x}{x} = \frac{1/x}{1} = \frac{1}{x} \to 0\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">1^∞ form</div>
+          <div class="acc-code">\(\lim_{x \to 0} (1+x)^{1/x}\)
+Let L = limit. ln L = lim (1/x)·ln(1+x) = lim ln(1+x)/x
+Apply L'Hôpital: = lim (1/(1+x))/1 = 1
+So ln L = 1, therefore L = e^1 = e ✓</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Critical warning</div>
+          <div class="acc-warn">L'Hôpital ONLY applies to indeterminate forms. If lim f(x)/g(x) = 3/0 or 5/2, it's NOT indeterminate — just compute the limit directly.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 5: ANALYTICAL APPLICATIONS
+══════════════════════════════════════════════ -->
+<div id="u5" class="unit-page">
+  <div class="unit-hero" data-num="5">
+    <div class="unit-tag">Unit 5</div>
+    <h1 class="unit-title">Analytical Applications of Differentiation</h1>
+    <p class="unit-desc">MVT, EVT, Rolle's Theorem, extrema, concavity, curve sketching, and optimization — the analysis toolbox.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">The Big Three Theorems</div>
+    <div class="thm"><div class="thm-name">Extreme Value Theorem (EVT)</div><div class="thm-body">If \(f\) is <strong>continuous</strong> on \([a,b]\), then \(f\) attains both an absolute maximum and minimum on \([a,b]\).</div></div>
+    <div class="thm"><div class="thm-name">Rolle's Theorem</div><div class="thm-body">If \(f\) is <strong>continuous</strong> on \([a,b]\), <strong>differentiable</strong> on \((a,b)\), and \(f(a) = f(b)\), then \(\exists\, c \in (a,b)\) with \(f'(c) = 0\).</div></div>
+    <div class="thm">
+      <div class="thm-name">Mean Value Theorem (MVT) <span class="tag tag-k" style="font-family:sans-serif">KEY</span></div>
+      <div class="thm-body">If \(f\) is <strong>continuous</strong> on \([a,b]\) and <strong>differentiable</strong> on \((a,b)\), then \(\exists\, c \in (a,b)\) such that:
+      $$f'(c) = \frac{f(b) - f(a)}{b - a}$$
+      Instantaneous rate of change equals the average rate of change somewhere.</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: MVT applications, consequences, and AP exam usage <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">What MVT actually says</div>
+          <div class="acc-p">The average slope of the secant line from \(a\) to \(b\) must equal the slope of the tangent line at some interior point. Think of it: if your average speed on a road trip was 60 mph, at some moment your speedometer read exactly 60 mph.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">AP consequence: proving a function has exactly one zero</div>
+          <div class="acc-p">If \(f'(x) > 0\) everywhere (MVT implies \(f\) is strictly increasing), then \(f\) can cross zero at most once.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">AP FRQ style</div>
+          <div class="acc-code">"Must there exist a c in (1,4) where f'(c) = 3?"
+Check: (f(4)−f(1))/(4−1) = avg rate of change.
+If = 3 and f is continuous/differentiable → yes, by MVT.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Critical Points &amp; Extrema Tests</div>
+    <div class="fc"><div class="flbl gd">Critical Point</div><div class="fmath">\(f'(c) = 0\) or \(f'(c)\) does not exist</div><div class="fnote">Candidates for local extrema. Not all critical points are extrema.</div></div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">First Derivative Test</div>
+        <div class="fmath" style="font-size:13px">
+          \(f'\): \(+ \to -\) → local <strong style="color:var(--green)">MAX</strong><br>
+          \(f'\): \(- \to +\) → local <strong style="color:var(--red)">MIN</strong><br>
+          No sign change → no extremum
+        </div>
+      </div>
+      <div class="fc"><div class="flbl gd">Second Derivative Test</div>
+        <div class="fmath" style="font-size:13px">
+          \(f'(c) = 0\) and \(f''(c) < 0\) → local <strong style="color:var(--green)">MAX</strong><br>
+          \(f'(c) = 0\) and \(f''(c) > 0\) → local <strong style="color:var(--red)">MIN</strong><br>
+          \(f''(c) = 0\) → <strong>inconclusive</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Concavity &amp; Inflection Points</div>
+    <div class="fgrid two">
+      <div class="fc g"><div class="flbl gr">Concave Up</div><div class="fmath">\(f''(x) > 0\)</div><div class="fnote">Tangent lines lie <em>below</em> curve. Like a cup ∪.</div></div>
+      <div class="fc r"><div class="flbl">Concave Down</div><div class="fmath">\(f''(x) < 0\)</div><div class="fnote">Tangent lines lie <em>above</em> curve. Like a cap ∩.</div></div>
+    </div>
+    <div class="thm b"><div class="thm-name">Inflection Point</div><div class="thm-body">A point where concavity changes sign. Find where \(f''(x) = 0\) or DNE, then <strong>verify \(f''\) changes sign</strong>. Just \(f''(c) = 0\) alone is not enough!</div></div>
+
+    <div class="sec-title">Curve Sketching Checklist</div>
+    <div class="steps">
+      <div class="step"><strong>Domain &amp; intercepts:</strong> Where is \(f\) defined? Find \(x\)- and \(y\)-intercepts.</div>
+      <div class="step"><strong>Asymptotes:</strong> Horizontal (\(\lim_{x\to\pm\infty}\)), vertical (denom = 0).</div>
+      <div class="step"><strong>Inc / Dec:</strong> Find \(f'\), solve \(f'=0\), build sign chart.</div>
+      <div class="step"><strong>Local extrema:</strong> Apply 1st or 2nd derivative test at critical points.</div>
+      <div class="step"><strong>Concavity:</strong> Find \(f''\), solve \(f''=0\), build sign chart for concavity intervals.</div>
+      <div class="step"><strong>Inflection points:</strong> Where concavity changes.</div>
+      <div class="step"><strong>Sketch:</strong> Plot key points; connect with correct shape.</div>
+    </div>
+
+    <div class="sec-title">Optimization</div>
+    <div class="steps">
+      <div class="step">Identify the quantity to maximize/minimize (objective function).</div>
+      <div class="step">Write a constraint equation relating the variables.</div>
+      <div class="step">Use the constraint to reduce objective to one variable.</div>
+      <div class="step">Differentiate, set equal to zero, find critical points.</div>
+      <div class="step">Verify max/min using 1st or 2nd derivative test, or check endpoints if on a closed interval.</div>
+      <div class="step">Answer in context with units.</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Optimization worked examples — box, distance, revenue <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Max area with fixed perimeter</div>
+          <div class="acc-code">Rectangle with perimeter 40. Maximize area.
+Constraint: 2l + 2w = 40 → l = 20 − w
+Objective: A = lw = (20−w)w = 20w − w²
+dA/dw = 20 − 2w = 0 → w = 10, l = 10
+Max area = 100 (it's a square!)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Closest point on curve to a point</div>
+          <div class="acc-code">Minimize D² = (x − 0)² + (y − 3)² with y = x²
+D² = x² + (x² − 3)² = x⁴ − 5x² + 9
+d(D²)/dx = 4x³ − 10x = 2x(2x² − 5) = 0
+x = 0 or x = ±√(5/2)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 6: INTEGRATION
+══════════════════════════════════════════════ -->
+<div id="u6" class="unit-page">
+  <div class="unit-hero" data-num="6">
+    <div class="unit-tag">Unit 6</div>
+    <h1 class="unit-title">Integration &amp; Accumulation of Change</h1>
+    <p class="unit-desc">Riemann sums, FTC, all antiderivatives, u-substitution, integration by parts, partial fractions, and improper integrals.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Riemann Sums</div>
+    <div class="fc"><div class="flbl">Subinterval Width</div><div class="fmath">\(\Delta x = \dfrac{b-a}{n}\)</div></div>
+    <div class="fgrid two">
+      <div class="fc b"><div class="flbl bl">Left Sum</div><div class="fmath">\(L_n = \Delta x \displaystyle\sum_{i=0}^{n-1} f(x_i)\)</div></div>
+      <div class="fc b"><div class="flbl bl">Right Sum</div><div class="fmath">\(R_n = \Delta x \displaystyle\sum_{i=1}^{n} f(x_i)\)</div></div>
+    </div>
+    <div class="fc"><div class="flbl gd">Trapezoidal Rule <span class="tag tag-k">KEY</span></div>
+      <div class="fmath">\(T_n = \dfrac{\Delta x}{2}\bigl[f(x_0) + 2f(x_1) + 2f(x_2) + \cdots + 2f(x_{n-1}) + f(x_n)\bigr]\)</div>
+      <div class="fnote">Average of Left and Right sums. Overestimates when concave up; underestimates when concave down.</div>
+    </div>
+
+    <div class="sec-title">Fundamental Theorem of Calculus</div>
+    <div class="thm">
+      <div class="thm-name">FTC Part 1 — Evaluation Theorem <span class="tag tag-k" style="font-family:sans-serif">MOST USED</span></div>
+      <div class="thm-body">If \(F'(x) = f(x)\), then:
+      $$\int_a^b f(x)\,dx = F(b) - F(a) = \bigl[F(x)\bigr]_a^b$$</div>
+    </div>
+    <div class="thm">
+      <div class="thm-name">FTC Part 2 — Antiderivative Theorem</div>
+      <div class="thm-body">If \(g(x) = \displaystyle\int_a^x f(t)\,dt\), then \(g'(x) = f(x)\).<br><br>
+      With chain rule: \(\dfrac{d}{dx}\displaystyle\int_a^{g(x)} f(t)\,dt = f(g(x)) \cdot g'(x)\)</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: FTC Part 2 with chain rule — a top AP exam topic <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Why the chain rule appears</div>
+          <div class="acc-p">When the upper limit is a function of \(x\) rather than just \(x\), you must multiply by the derivative of that upper limit. This is just the chain rule applied to the composition.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Example</div>
+          <div class="acc-code">\(\dfrac{d}{dx}\int_1^{x^3} \cos(t^2)\,dt = \cos(x^6) \cdot 3x^2\)
+(Plug in upper limit for t, then multiply by derivative of upper limit)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Two variable limits</div>
+          <div class="acc-code">\(\dfrac{d}{dx}\int_{x}^{x^2} f(t)\,dt = f(x^2)\cdot 2x - f(x)\cdot 1\)
+Split into two integrals using additive property, then apply FTC2 to each.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Complete Antiderivative Table</div>
+    <table class="ftbl">
+      <tr><th>f(x)</th><th>∫ f(x) dx</th></tr>
+      <tr><td class="fx">\(x^n\) (\(n \neq -1\))</td><td class="gfx">\(\dfrac{x^{n+1}}{n+1} + C\)</td></tr>
+      <tr><td class="fx">\(x^{-1} = 1/x\)</td><td class="gfx">\(\ln|x| + C\)</td></tr>
+      <tr><td class="fx">\(e^x\)</td><td class="gfx">\(e^x + C\)</td></tr>
+      <tr><td class="fx">\(a^x\)</td><td class="gfx">\(\dfrac{a^x}{\ln a} + C\)</td></tr>
+      <tr><td class="fx">\(\sin x\)</td><td class="gfx">\(-\cos x + C\)</td></tr>
+      <tr><td class="fx">\(\cos x\)</td><td class="gfx">\(\sin x + C\)</td></tr>
+      <tr><td class="fx">\(\sec^2 x\)</td><td class="gfx">\(\tan x + C\)</td></tr>
+      <tr><td class="fx">\(\csc^2 x\)</td><td class="gfx">\(-\cot x + C\)</td></tr>
+      <tr><td class="fx">\(\sec x \tan x\)</td><td class="gfx">\(\sec x + C\)</td></tr>
+      <tr><td class="fx">\(\csc x \cot x\)</td><td class="gfx">\(-\csc x + C\)</td></tr>
+      <tr><td class="fx">\(\tan x\)</td><td class="gfx">\(\ln|\sec x| + C\)</td></tr>
+      <tr><td class="fx">\(\dfrac{1}{\sqrt{1-x^2}}\)</td><td class="gfx">\(\arcsin x + C\)</td></tr>
+      <tr><td class="fx">\(\dfrac{1}{1+x^2}\)</td><td class="gfx">\(\arctan x + C\)</td></tr>
+    </table>
+
+    <div class="sec-title">U-Substitution</div>
+    <div class="steps">
+      <div class="step">Identify \(u = g(x)\) (usually the "inside" of a composite function).</div>
+      <div class="step">Compute \(du = g'(x)\,dx\). Solve for \(dx\) if needed.</div>
+      <div class="step">Rewrite the integral entirely in terms of \(u\).</div>
+      <div class="step">Integrate with respect to \(u\).</div>
+      <div class="step">Back-substitute \(u = g(x)\). For definite integrals, change limits to \(u\)-values.</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: U-sub examples including definite integrals and tricky choices <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Basic example</div>
+          <div class="acc-code">\(\int 2x\cos(x^2)\,dx\)
+u = x², du = 2x dx
+= \(\int \cos(u)\,du = \sin(u) + C = \sin(x^2) + C\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Definite integral — change limits</div>
+          <div class="acc-code">\(\int_0^2 x\,e^{x^2}\,dx\)
+u = x², du = 2x dx → x dx = du/2
+When x = 0: u = 0.  When x = 2: u = 4
+= \(\tfrac{1}{2}\int_0^4 e^u\,du = \tfrac{1}{2}[e^u]_0^4 = \tfrac{1}{2}(e^4 - 1)\)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">When u-sub doesn't work</div>
+          <div class="acc-p">If you can't get the integrand purely in terms of \(u\) after substituting (leftover \(x\) terms that don't cancel), try integration by parts instead.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Integration by Parts <span class="tag tag-bc">BC</span></div>
+    <div class="disp-formula">
+      <span class="dlbl">Integration by Parts</span>
+      $$\int u\,dv = uv - \int v\,du$$
+    </div>
+    <div class="fc"><div class="flbl gd">LIATE — Choose u from the FIRST applicable category</div>
+      <div class="fmath" style="font-size:14px">\(\mathbf{L}\)og · \(\mathbf{I}\)nverse trig · \(\mathbf{A}\)lgebraic · \(\mathbf{T}\)rig · \(\mathbf{E}\)xponential</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: IBP examples including cyclic integrals and tabular method <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Standard example</div>
+          <div class="acc-code">\(\int x e^x\,dx\)
+u = x (Algebraic), dv = e^x dx
+du = dx, v = e^x
+= xe^x − \(\int e^x\,dx\) = xe^x − e^x + C = e^x(x−1) + C</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Cyclic integral (solve for I)</div>
+          <div class="acc-code">\(I = \int e^x \sin x\,dx\)
+IBP twice: I = e^x sin x − e^x cos x − I
+2I = e^x(sin x − cos x)
+I = \(\frac{e^x(\sin x - \cos x)}{2}\) + C</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Log case (u = ln x)</div>
+          <div class="acc-code">\(\int \ln x\,dx\)
+u = ln x, dv = dx, du = 1/x dx, v = x
+= x ln x − \(\int x \cdot \frac{1}{x}\,dx\) = x ln x − x + C</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Partial Fraction Decomposition <span class="tag tag-bc">BC</span></div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Distinct Linear</div><div class="fmath">\(\dfrac{P(x)}{(x-a)(x-b)} = \dfrac{A}{x-a} + \dfrac{B}{x-b}\)</div></div>
+      <div class="fc"><div class="flbl">Repeated Linear</div><div class="fmath">\(\dfrac{P(x)}{(x-a)^2} = \dfrac{A}{x-a} + \dfrac{B}{(x-a)^2}\)</div></div>
+      <div class="fc"><div class="flbl">Irreducible Quadratic</div><div class="fmath">\(\dfrac{P(x)}{(x-a)(x^2+bx+c)} = \dfrac{A}{x-a} + \dfrac{Bx+C}{x^2+bx+c}\)</div></div>
+    </div>
+    <div class="warn">If \(\deg(\text{num}) \ge \deg(\text{den})\), do polynomial long division first before decomposing.</div>
+
+    <div class="sec-title">Improper Integrals <span class="tag tag-bc">BC</span></div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Infinite Bound</div><div class="fmath">\(\displaystyle\int_a^{\infty} f\,dx = \lim_{t \to \infty}\int_a^t f\,dx\)</div></div>
+      <div class="fc"><div class="flbl">Discontinuity at b</div><div class="fmath">\(\displaystyle\int_a^b f\,dx = \lim_{t \to b^-}\int_a^t f\,dx\)</div></div>
+    </div>
+    <div class="fc"><div class="flbl gd">p-Integral Results <span class="tag tag-k">MEMORIZE</span></div>
+      <div class="fmath" style="font-size:13.5px">
+        \(\displaystyle\int_1^{\infty} \frac{1}{x^p}\,dx\): converges if \(p > 1\), diverges if \(p \le 1\)<br>
+        \(\displaystyle\int_0^{1} \frac{1}{x^p}\,dx\): converges if \(p < 1\), diverges if \(p \ge 1\)
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 7: DIFFERENTIAL EQUATIONS
+══════════════════════════════════════════════ -->
+<div id="u7" class="unit-page">
+  <div class="unit-hero" data-num="7">
+    <div class="unit-tag">Unit 7</div>
+    <h1 class="unit-title">Differential Equations</h1>
+    <p class="unit-desc">Slope fields, separable DEs, exponential models, Euler's method, and the logistic differential equation.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Slope Fields</div>
+    <p>A slope field for \(\frac{dy}{dx} = F(x,y)\) draws a short segment with slope \(F(x,y)\) at each point \((x,y)\). Solution curves follow the field's "flow."</p>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Reading slope fields and matching them to DEs <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Identifying features</div>
+          <div class="acc-p">If all slopes on a horizontal line \(y = k\) are equal, the DE depends only on \(y\). If slopes along a vertical line \(x = c\) are equal, it depends only on \(x\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Isoclines</div>
+          <div class="acc-p">An <span class="hl">isocline</span> is a curve where \(F(x,y) = k\) (constant slope). Along \(dy/dx = 0\), the segments are horizontal — this curve shows where solutions have horizontal tangents (potential extrema).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">AP strategy</div>
+          <div class="acc-p">Plug in specific points to compute slopes. Trace a solution curve from an initial condition by following segments. Check signs of \(F(x,y)\) in each region.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Separable Differential Equations</div>
+    <div class="steps">
+      <div class="step">Separate: move all \(y\)-terms with \(dy\) to one side; all \(x\)-terms with \(dx\) to the other.</div>
+      <div class="step">Integrate both sides.</div>
+      <div class="step">Solve for \(y\) (if possible).</div>
+      <div class="step">Apply initial condition to find \(C\).</div>
+    </div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Exponential Growth/Decay</div><div class="fmath">\(\dfrac{dy}{dt} = ky \implies y = Ce^{kt}\)</div><div class="fnote">\(k > 0\): growth. \(k < 0\): decay. \(C = y(0)\).</div></div>
+      <div class="fc"><div class="flbl">Half-life / Doubling</div><div class="fmath">\(t_{1/2} = \dfrac{\ln 2}{|k|}, \quad t_{\text{double}} = \dfrac{\ln 2}{k}\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Full worked separable DE + common mistakes with constants <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Full example</div>
+          <div class="acc-code">Solve: dy/dx = xy,  y(0) = 2
+Separate: dy/y = x dx
+Integrate: ln|y| = x²/2 + C
+Exponentiate: |y| = e^(x²/2 + C) = Ae^(x²/2)  (A = e^C > 0)
+General solution: y = Ae^(x²/2)
+Apply IC: 2 = Ae^0 = A
+Particular solution: y = 2e^(x²/2)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Common mistakes</div>
+          <div class="acc-warn">Don't forget the constant of integration! And: ln|y| + C₁ = x²/2 + C₂ simplifies to ln|y| = x²/2 + C (absorb both into one C). Writing y = e^(x²/2) + C is WRONG — the C must be in the exponent.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Euler's Method <span class="tag tag-bc">BC</span></div>
+    <div class="thm b">
+      <div class="thm-name">Euler's Method</div>
+      <div class="thm-body">Given \(\dfrac{dy}{dx} = F(x,y)\), start \((x_0, y_0)\), step size \(h\):
+      $$x_{n+1} = x_n + h, \qquad y_{n+1} = y_n + h \cdot F(x_n, y_n)$$
+      Repeat until the target \(x\)-value is reached.</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Euler's Method worked example + over/underestimate analysis <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Full example</div>
+          <div class="acc-code">dy/dx = x + y, y(0) = 1, h = 0.1. Approximate y(0.2).
+
+Step 1: x₀=0, y₀=1. F(0,1) = 0+1 = 1
+y₁ = 1 + 0.1(1) = 1.1, x₁ = 0.1
+
+Step 2: x₁=0.1, y₁=1.1. F(0.1,1.1) = 0.1+1.1 = 1.2
+y₂ = 1.1 + 0.1(1.2) = 1.22, x₂ = 0.2
+
+Approximation: y(0.2) ≈ 1.22</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Over/Underestimate</div>
+          <div class="acc-p">If the solution is concave up, Euler's method <span class="hl">underestimates</span> (tangent lines are below the curve). If concave down, it <span class="hl">overestimates</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Logistic Differential Equation <span class="tag tag-bc">BC</span></div>
+    <div class="disp-formula">
+      <span class="dlbl">Logistic Model</span>
+      $$\frac{dP}{dt} = kP\!\left(1 - \frac{P}{M}\right)$$
+    </div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Logistic Solution</div><div class="fmath">\(P(t) = \dfrac{M}{1 + Ae^{-kt}}, \quad A = \dfrac{M - P_0}{P_0}\)</div></div>
+      <div class="fc"><div class="flbl">Key Properties</div><div class="fmath" style="font-size:13px">Max growth rate at \(P = M/2\)<br>Inflection point: \(P = M/2\)<br>\(\lim_{t\to\infty} P(t) = M\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Logistic model behavior, deriving A, and AP question types <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Why the growth rate peaks at P = M/2</div>
+          <div class="acc-p">The rate is \(f(P) = kP(1-P/M)\). Treat as a parabola in \(P\) — it's maximized at \(P = M/2\). Before that, population accelerates. After, it decelerates toward \(M\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Finding A from initial condition P(0) = P₀</div>
+          <div class="acc-code">P(0) = M/(1 + A) = P₀
+1 + A = M/P₀
+A = M/P₀ − 1 = (M − P₀)/P₀</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">AP FRQ question type</div>
+          <div class="acc-p">You're often asked to: (1) identify \(M\) and \(k\) from the DE, (2) determine when growth rate is maximized (at \(P = M/2\)), (3) determine behavior as \(t \to \infty\).</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 8: APPLICATIONS OF INTEGRATION
+══════════════════════════════════════════════ -->
+<div id="u8" class="unit-page">
+  <div class="unit-hero" data-num="8">
+    <div class="unit-tag">Unit 8</div>
+    <h1 class="unit-title">Applications of Integration</h1>
+    <p class="unit-desc">Area between curves, volumes of revolution (disk, washer, shell), arc length, and average value.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Area Between Curves</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Vertical slices (integrate in \(x\))</div><div class="fmath">\(A = \displaystyle\int_a^b [\text{top}(x) - \text{bottom}(x)]\,dx\)</div></div>
+      <div class="fc"><div class="flbl gd">Horizontal slices (integrate in \(y\))</div><div class="fmath">\(A = \displaystyle\int_c^d [\text{right}(y) - \text{left}(y)]\,dy\)</div></div>
+    </div>
+    <div class="warn">If curves cross in the interval, split the integral at each crossing. The top/bottom relationship may switch.</div>
+
+    <div class="sec-title">Volumes of Revolution</div>
+    <div class="subsec-title">Disk Method (no hole)</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">About \(x\)-axis</div><div class="fmath">\(V = \pi\displaystyle\int_a^b [f(x)]^2\,dx\)</div></div>
+      <div class="fc"><div class="flbl gd">About \(y\)-axis</div><div class="fmath">\(V = \pi\displaystyle\int_c^d [f(y)]^2\,dy\)</div></div>
+    </div>
+
+    <div class="subsec-title">Washer Method (two curves, hollow)</div>
+    <div class="fc"><div class="flbl gd">About \(x\)-axis</div><div class="fmath">\(V = \pi\displaystyle\int_a^b \bigl([R(x)]^2 - [r(x)]^2\bigr)\,dx\)</div><div class="fnote">\(R\) = outer radius, \(r\) = inner radius (both distances from axis)</div></div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Washer method about non-x-axis lines + setting up radii <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Rotating about y = k</div>
+          <div class="acc-p">When rotating about the line \(y = k\), the radius of each function is the <span class="hl">distance</span> from the function to the axis, which is \(|f(x) - k|\).</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Example: rotate region between y = x² and y = x about y = −1</div>
+          <div class="acc-code">R(x) = x − (−1) = x + 1  (outer: top function + distance to axis)
+r(x) = x² − (−1) = x² + 1  (inner: bottom function + distance to axis)
+V = π∫₀¹ [(x+1)² − (x²+1)²] dx</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Key insight</div>
+          <div class="acc-p">Always draw a cross-section. Identify which function is farther from the axis (outer) and which is closer (inner). The outer radius is always larger.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec-title">Shell Method <span class="tag tag-bc">BC</span></div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">About \(y\)-axis (integrate in \(x\))</div><div class="fmath">\(V = 2\pi\displaystyle\int_a^b x \cdot f(x)\,dx\)</div><div class="fnote">radius = \(x\), height = \(f(x)\)</div></div>
+      <div class="fc"><div class="flbl gd">About \(x\)-axis (integrate in \(y\))</div><div class="fmath">\(V = 2\pi\displaystyle\int_c^d y \cdot f(y)\,dy\)</div></div>
+    </div>
+    <div class="tip">Shells: slices are <em>parallel</em> to the axis. Disks/washers: slices are <em>perpendicular</em> to the axis. Use shells when the function is given in \(x\) but you're rotating about the \(y\)-axis.</div>
+
+    <div class="sec-title">Arc Length <span class="tag tag-bc">BC</span></div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Cartesian</div><div class="fmath">\(L = \displaystyle\int_a^b \sqrt{1 + [f'(x)]^2}\,dx\)</div></div>
+      <div class="fc"><div class="flbl">In terms of \(y\)</div><div class="fmath">\(L = \displaystyle\int_c^d \sqrt{1 + [g'(y)]^2}\,dy\)</div></div>
+    </div>
+
+    <div class="sec-title">Average Value of a Function</div>
+    <div class="disp-formula">
+      <span class="dlbl">Average Value</span>
+      $$f_{\text{avg}} = \frac{1}{b-a}\int_a^b f(x)\,dx$$
+    </div>
+    <div class="thm g"><div class="thm-name">MVT for Integrals</div><div class="thm-body">If \(f\) is continuous on \([a,b]\), then \(\exists\, c \in [a,b]\) with \(f(c) = f_{\text{avg}}\). The function equals its average value somewhere.</div></div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 9: PARAMETRIC, POLAR & VECTORS
+══════════════════════════════════════════════ -->
+<div id="u9" class="unit-page">
+  <div class="unit-hero" data-num="9">
+    <div class="unit-tag">Unit 9 — BC Only</div>
+    <h1 class="unit-title">Parametric, Polar &amp; Vectors</h1>
+    <p class="unit-desc">Calculus with parametric curves, polar coordinates, and vector-valued functions — derivatives, arc length, area, and planar motion.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Parametric Equations</div>
+    <p>A curve is defined by \(x = f(t)\) and \(y = g(t)\). The parameter \(t\) often represents time.</p>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">First Derivative (slope)</div><div class="fmath">\(\dfrac{dy}{dx} = \dfrac{dy/dt}{dx/dt}\)</div><div class="fnote">Horizontal tangent: \(dy/dt = 0\) (and \(dx/dt \neq 0\))<br>Vertical tangent: \(dx/dt = 0\) (and \(dy/dt \neq 0\))</div></div>
+      <div class="fc"><div class="flbl gd">Second Derivative</div><div class="fmath">\(\dfrac{d^2y}{dx^2} = \dfrac{\;d\!\left(\dfrac{dy}{dx}\right)/dt\;}{dx/dt}\)</div></div>
+      <div class="fc"><div class="flbl gd">Arc Length</div><div class="fmath">\(L = \displaystyle\int_a^b \sqrt{\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2}\,dt\)</div></div>
+      <div class="fc"><div class="flbl">Speed at time \(t\)</div><div class="fmath">\(|v| = \sqrt{\dot{x}^2 + \dot{y}^2}\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Parametric derivatives worked + concavity analysis <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Example: x = t², y = t³ − 3t</div>
+          <div class="acc-code">dx/dt = 2t,  dy/dt = 3t² − 3
+
+dy/dx = (3t² − 3)/(2t)
+
+Horizontal tangent: 3t² − 3 = 0 → t = ±1
+Vertical tangent: 2t = 0 → t = 0
+
+d²y/dx² = [d/dt(dy/dx)] / (dx/dt)
+d/dt[(3t²−3)/2t] = d/dt[3t/2 − 3/(2t)] = 3/2 + 3/(2t²)
+d²y/dx² = [3/2 + 3/(2t²)] / (2t)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Polar Coordinates</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Polar ↔ Cartesian</div><div class="fmath">\(x = r\cos\theta,\quad y = r\sin\theta\)<br>\(r^2 = x^2 + y^2\)</div></div>
+      <div class="fc"><div class="flbl gd">Slope of Polar Curve</div><div class="fmath">\(\dfrac{dy}{dx} = \dfrac{r'\sin\theta + r\cos\theta}{r'\cos\theta - r\sin\theta}\)</div></div>
+    </div>
+
+    <div class="subsec-title">Area in Polar Coordinates <span class="tag tag-k">KEY</span></div>
+    <div class="disp-formula">
+      <span class="dlbl">Area of polar region</span>
+      $$A = \frac{1}{2}\int_\alpha^\beta r^2\,d\theta = \frac{1}{2}\int_\alpha^\beta [f(\theta)]^2\,d\theta$$
+    </div>
+    <div class="fc"><div class="flbl">Area between two polar curves</div><div class="fmath">\(A = \dfrac{1}{2}\displaystyle\int_\alpha^\beta \bigl([R(\theta)]^2 - [r(\theta)]^2\bigr)\,d\theta\)</div><div class="fnote">\(R\) = outer, \(r\) = inner. Find \(\alpha, \beta\) by setting \(R = r\).</div></div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Finding polar area limits, symmetry, and common curves <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Common polar curves</div>
+          <div class="acc-code">r = a: circle of radius a
+r = 2a cosθ: circle of diameter 2a along x-axis
+r = a(1 ± cosθ): cardioid
+r = a + b cosθ: limaçon (inner loop if b > a)
+r = a cos(nθ): rose (n petals if n odd, 2n if n even)
+r² = a² cos(2θ): lemniscate (figure-eight)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Finding intersection angles</div>
+          <div class="acc-p">Set \(R(\theta) = r(\theta)\) and solve. Also check the pole (\(r = 0\)): both curves might pass through it at different angles. Graph carefully.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Symmetry shortcuts</div>
+          <div class="acc-p">If the curve is symmetric about the \(x\)-axis, integrate from 0 to \(\pi/2\) and double. For a rose \(r = \cos(n\theta)\), each petal spans \(\pi/n\) in \(\theta\).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Vector-Valued Functions</div>
+    <p>Position vector \(\mathbf{r}(t) = \langle x(t),\, y(t) \rangle\) describes planar motion.</p>
+    <div class="fgrid three">
+      <div class="fc"><div class="flbl gd">Velocity</div><div class="fmath">\(\mathbf{v}(t) = \mathbf{r}'(t) = \langle x', y' \rangle\)</div></div>
+      <div class="fc"><div class="flbl gd">Acceleration</div><div class="fmath">\(\mathbf{a}(t) = \mathbf{v}'(t) = \langle x'', y'' \rangle\)</div></div>
+      <div class="fc"><div class="flbl gd">Speed</div><div class="fmath">\(|\mathbf{v}(t)| = \sqrt{(x')^2 + (y')^2}\)</div></div>
+    </div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Distance traveled</div><div class="fmath">\(\displaystyle\int_a^b |\mathbf{v}(t)|\,dt\)</div></div>
+      <div class="fc"><div class="flbl">Position from velocity</div><div class="fmath">\(\mathbf{r}(t) = \mathbf{r}(t_0) + \displaystyle\int_{t_0}^t \mathbf{v}(s)\,ds\)</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     UNIT 10: SEQUENCES & SERIES
+══════════════════════════════════════════════ -->
+<div id="u10" class="unit-page">
+  <div class="unit-hero" data-num="10">
+    <div class="unit-tag">Unit 10 — BC Only</div>
+    <h1 class="unit-title">Infinite Sequences &amp; Series</h1>
+    <p class="unit-desc">Every convergence test, geometric and p-series, power series, Taylor/Maclaurin series, and the Lagrange error bound.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="sec-title">Sequences</div>
+    <p>A sequence \(\{a_n\}\) converges if \(\lim_{n\to\infty} a_n = L\) (finite). Otherwise it diverges.</p>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Geometric Sequence</div><div class="fmath">\(a_n = a \cdot r^{n-1}\)<br>Converges iff \(|r| < 1\)</div></div>
+      <div class="fc"><div class="flbl">Growth hierarchy \((n\to\infty)\)</div><div class="fmath">\(\ln n \ll n^p \ll a^n \ll n! \ll n^n\)</div></div>
+    </div>
+
+    <div class="sec-title">Key Series — Know These Cold</div>
+    <div class="fc"><div class="flbl gd">Geometric Series <span class="tag tag-k">MOST IMPORTANT</span></div>
+      <div class="fmath">\(\displaystyle\sum_{n=0}^{\infty} ar^n = \frac{a}{1-r}, \quad |r| < 1\)</div>
+      <div class="fnote">Diverges if \(|r| \ge 1\). Partial sum: \(S_n = a\cdot\dfrac{1-r^n}{1-r}\).</div>
+    </div>
+    <div class="fc"><div class="flbl gd">p-Series <span class="tag tag-k">MUST KNOW</span></div>
+      <div class="fmath">\(\displaystyle\sum_{n=1}^{\infty} \frac{1}{n^p}\): converges if \(p > 1\), diverges if \(p \le 1\)</div>
+      <div class="fnote">Harmonic series \(\sum 1/n\): diverges (\(p = 1\)).</div>
+    </div>
+
+    <div class="sec-title">All Convergence Tests</div>
+    <div class="thm">
+      <div class="thm-name">nth Term (Divergence) Test</div>
+      <div class="thm-body">If \(\lim_{n\to\infty} a_n \neq 0\), then \(\sum a_n\) <strong>diverges</strong>.<br>
+      If \(\lim a_n = 0\): <strong>inconclusive</strong> — series may converge or diverge.</div>
+    </div>
+
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl">Integral Test</div><div class="fmath" style="font-size:13px">If \(f\) is continuous, positive, decreasing on \([1,\infty)\) and \(a_n = f(n)\): \(\sum a_n\) and \(\int_1^\infty f\,dx\) both converge or both diverge.</div></div>
+      <div class="fc"><div class="flbl">Direct Comparison</div><div class="fmath" style="font-size:13px">\(0 \le a_n \le b_n\): if \(\sum b_n\) converges, so does \(\sum a_n\). If \(\sum a_n\) diverges, so does \(\sum b_n\).</div></div>
+      <div class="fc"><div class="flbl">Limit Comparison</div><div class="fmath" style="font-size:13px">\(\lim_{n\to\infty}\dfrac{a_n}{b_n} = L\) (0 < L < ∞): \(\sum a_n\) and \(\sum b_n\) have the same convergence behavior.</div></div>
+    </div>
+
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Ratio Test <span class="tag tag-k">KEY for n! and a^n</span></div>
+        <div class="fmath">\(L = \displaystyle\lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|\)<br><br>
+        \(L < 1\): converges absolutely<br>
+        \(L > 1\) or \(\infty\): diverges<br>
+        \(L = 1\): inconclusive</div>
+      </div>
+      <div class="fc"><div class="flbl">Root Test</div>
+        <div class="fmath">\(L = \displaystyle\lim_{n\to\infty} \sqrt[n]{|a_n|}\)<br><br>
+        \(L < 1\): converges<br>
+        \(L > 1\): diverges<br>
+        \(L = 1\): inconclusive</div>
+      </div>
+    </div>
+
+    <div class="thm">
+      <div class="thm-name">Alternating Series Test (Leibniz)</div>
+      <div class="thm-body">\(\displaystyle\sum (-1)^n b_n\) converges if: (1) \(b_n > 0\), (2) \(b_{n+1} \le b_n\) (decreasing), (3) \(\lim b_n = 0\).</div>
+    </div>
+    <div class="fc"><div class="flbl gd">Alternating Series Estimation Theorem <span class="tag tag-k">AP EXAM KEY</span></div>
+      <div class="fmath">\(|S - S_n| \le b_{n+1}\)</div>
+      <div class="fnote">Error bounded by the first unused term. Error has same sign as first unused term.</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Which test to use — decision guide + worked examples <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Quick decision chart</div>
+          <div class="acc-code">ar^n or geometric-looking?       → Geometric Series formula
+1/n^p type?                       → p-Series
+Contains n! or a^n?               → Ratio Test
+Similar to known convergent series → Comparison tests
+Alternates (−1)^n?                → Alternating Series Test
+f(n) easily integrable?           → Integral Test
+Contains n-th root throughout?    → Root Test</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Ratio Test on n!</div>
+          <div class="acc-code">\(\sum \frac{n!}{2^n}\)
+|a_{n+1}/a_n| = (n+1)!/2^{n+1} · 2^n/n! = (n+1)/2 → ∞
+L > 1 → diverges</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Limit Comparison example</div>
+          <div class="acc-code">\(\sum \frac{3n+5}{n^3 + 2}\) — behaves like 3n/n³ = 3/n²
+Compare with \(\sum 1/n^2\) (p-series, p=2>1, converges)
+lim (3n+5)/(n³+2) · n² = lim (3n³+5n²)/(n³+2) = 3
+L = 3 ∈ (0,∞) → same behavior → converges ✓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Power Series</div>
+    <div class="disp-formula">
+      <span class="dlbl">Power Series centered at \(x = a\)</span>
+      $$\sum_{n=0}^{\infty} c_n(x-a)^n = c_0 + c_1(x-a) + c_2(x-a)^2 + \cdots$$
+    </div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">Radius of Convergence</div><div class="fmath">\(R = \displaystyle\lim_{n\to\infty}\left|\frac{c_n}{c_{n+1}}\right|\) (via Ratio Test)<br>Converges for \(|x - a| < R\)</div></div>
+      <div class="fc"><div class="flbl">Interval of Convergence</div><div class="fmath">\((a-R,\; a+R)\) plus possibly endpoints.<br>Check endpoints separately!</div></div>
+    </div>
+    <div class="tip">Differentiating or integrating a power series term-by-term preserves the radius of convergence \(R\). Endpoints must be rechecked for the new series.</div>
+
+    <div class="sec-title">Taylor &amp; Maclaurin Series</div>
+    <div class="disp-formula">
+      <span class="dlbl">Taylor Series for \(f\) centered at \(x = a\)</span>
+      $$f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n$$
+    </div>
+
+    <div class="subsec-title">Essential Maclaurin Series — Memorize All Six</div>
+    <div class="fgrid two">
+      <div class="fc"><div class="flbl gd">\(e^x\) — converges for all \(x\)</div><div class="fmath">\(e^x = \displaystyle\sum_{n=0}^{\infty}\frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots\)</div></div>
+      <div class="fc"><div class="flbl gd">\(\sin x\) — converges for all \(x\)</div><div class="fmath">\(\sin x = \displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n x^{2n+1}}{(2n+1)!} = x - \frac{x^3}{6} + \frac{x^5}{120} - \cdots\)</div></div>
+      <div class="fc"><div class="flbl gd">\(\cos x\) — converges for all \(x\)</div><div class="fmath">\(\cos x = \displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n x^{2n}}{(2n)!} = 1 - \frac{x^2}{2} + \frac{x^4}{24} - \cdots\)</div></div>
+      <div class="fc"><div class="flbl gd">\(\frac{1}{1-x}\) — converges for \(|x| < 1\)</div><div class="fmath">\(\dfrac{1}{1-x} = \displaystyle\sum_{n=0}^{\infty} x^n = 1 + x + x^2 + x^3 + \cdots\)</div></div>
+      <div class="fc"><div class="flbl gd">\(\ln(1+x)\) — converges for \(-1 < x \le 1\)</div><div class="fmath">\(\ln(1+x) = \displaystyle\sum_{n=1}^{\infty}\frac{(-1)^{n+1}x^n}{n} = x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots\)</div></div>
+      <div class="fc"><div class="flbl gd">\(\arctan x\) — converges for \(|x| \le 1\)</div><div class="fmath">\(\arctan x = \displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n x^{2n+1}}{2n+1} = x - \frac{x^3}{3} + \frac{x^5}{5} - \cdots\)</div></div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Substitution into series, integrating series, and AP question types <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Substitution strategy (most common AP technique)</div>
+          <div class="acc-p">Replace \(x\) with an expression in the known series formula. This is faster than computing derivatives.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Examples</div>
+          <div class="acc-code">e^{x²}: replace x with x² in e^x series
+= 1 + x² + x⁴/2! + x⁶/3! + ...
+
+sin(x³): replace x with x³ in sin x series  
+= x³ − x⁹/6 + x¹⁵/120 − ...
+
+1/(1+x²): replace x with −x² in 1/(1−x) series
+= 1 − x² + x⁴ − x⁶ + ... (this gives arctan series when integrated!)</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Integrating series</div>
+          <div class="acc-code">\(\int \frac{\sin x}{x}\,dx\): use sin x series divided by x, then integrate term-by-term
+sin x/x = 1 − x²/6 + x⁴/120 − ...
+∫ = x − x³/18 + x⁵/600 − ... + C</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">Finding specific coefficients</div>
+          <div class="acc-p">The coefficient of \((x-a)^n\) in the Taylor series is \(\dfrac{f^{(n)}(a)}{n!}\). If asked for the 3rd-degree term, compute \(f'''(a)/6\).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Lagrange Error Bound <span class="tag tag-k">CRITICAL AP TOPIC</span></div>
+    <div class="thm">
+      <div class="thm-name">Lagrange Error Bound (Taylor Remainder)</div>
+      <div class="thm-body">If \(T_n(x)\) is the \(n\)th-degree Taylor polynomial for \(f\) centered at \(a\):
+      $$|f(x) - T_n(x)| \le \frac{M \cdot |x - a|^{n+1}}{(n+1)!}$$
+      where \(M = \max|f^{(n+1)}|\) on the interval between \(a\) and \(x\).</div>
+    </div>
+    <div class="steps">
+      <div class="step">Find the \((n+1)\)th derivative of \(f\).</div>
+      <div class="step">Find its maximum absolute value \(M\) on the interval \([a, x]\).</div>
+      <div class="step">Plug into \(|R_n| \le \dfrac{M|x-a|^{n+1}}{(n+1)!}\).</div>
+    </div>
+    <div class="acc">
+      <button class="acc-btn" onclick="toggleAcc(this)">📖 Deep Dive: Lagrange error bound fully worked + alternating series shortcut <span class="acc-arrow">▼</span></button>
+      <div class="acc-body">
+        <div class="acc-section">
+          <div class="acc-h">Full Lagrange example</div>
+          <div class="acc-code">Approximate e^{0.1} using the 3rd-degree Maclaurin polynomial.
+T₃(x) = 1 + x + x²/2 + x³/6
+f(x) = e^x, f^{(4)}(x) = e^x
+M = max |e^x| on [0, 0.1] = e^{0.1} < e^1 < 3 (use M = 3 to be safe)
+|error| ≤ 3 · (0.1)⁴ / 4! = 3 · 0.0001 / 24 = 0.0000125</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">When to use alternating series estimate instead</div>
+          <div class="acc-p">For alternating series (sin, cos, arctan, ln(1+x)), the error is simply <span class="hl">≤ first unused term</span>. This is simpler and always valid when the series satisfies AST conditions.</div>
+        </div>
+        <div class="acc-section">
+          <div class="acc-h">AP exam tip</div>
+          <div class="acc-p">The exam will often say "find a bound for the error" — use Lagrange for non-alternating Taylor series (like \(e^x\)), and the AST estimation for alternating ones. Both are fair game.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Telescoping Series</div>
+    <div class="fc p"><div class="flbl">Telescoping Pattern</div>
+      <div class="fmath">\(\displaystyle\sum_{n=1}^{\infty}(a_n - a_{n+1}) = a_1 - \lim_{n\to\infty} a_{n+1}\)</div>
+      <div class="fnote">Use partial fractions to reveal telescoping. Example: \(\dfrac{1}{n(n+1)} = \dfrac{1}{n} - \dfrac{1}{n+1}\) → sum \(= 1\).</div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function renderMath() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\(", right: "\\)", display: false}
+    ],
+    throwOnError: false,
+    strict: false
+  });
+}
+
+function showPage(id) {
+  document.querySelectorAll('.unit-page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  updateNav(id);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.getElementById('main').scrollTo({top: 0});
+}
+
+function nav(id) {
+  showPage(id);
+  closeSidebar();
+}
+
+function updateNav(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') === `nav('${id}')`) n.classList.add('active');
+  });
+}
+
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('overlay');
+  const hm = document.getElementById('ham');
+  const isOpen = sb.classList.contains('open');
+  if (isOpen) {
+    sb.classList.remove('open');
+    ov.classList.remove('show');
+    hm.classList.remove('open');
+    setTimeout(() => { if (!sb.classList.contains('open')) ov.style.display = 'none'; }, 300);
+  } else {
+    ov.style.display = 'block';
+    setTimeout(() => ov.classList.add('show'), 10);
+    sb.classList.add('open');
+    hm.classList.add('open');
+  }
+}
+
+function closeSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('overlay');
+  const hm = document.getElementById('ham');
+  sb.classList.remove('open');
+  ov.classList.remove('show');
+  hm.classList.remove('open');
+  setTimeout(() => { if (!sb.classList.contains('open')) ov.style.display = 'none'; }, 300);
+}
+
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  // Close all others in same parent
+  btn.closest('.unit-content, .home-hero')?.querySelectorAll('.acc-btn.open').forEach(b => {
+    if (b !== btn) {
+      b.classList.remove('open');
+      b.nextElementSibling.classList.remove('open');
+    }
+  });
+  btn.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+// Init: make home active
+updateNav('home');
+</script>
+</body>
+</html>
