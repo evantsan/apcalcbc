@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calculus BC — Complete Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070a10;
+    --surface: #0d1120;
+    --surface-2: #141928;
+    --surface-3: #1c2338;
+    --border: #242d45;
+    --border-light: #2e3a58;
+    --gold: #e8b84b;
+    --gold-dim: #9c7a2e;
+    --blue: #5b9bd5;
+    --blue-dim: #2e5480;
+    --green: #4cba88;
+    --red: #e0706a;
+    --purple: #9b7fd4;
+    --text: #ddd5c5;
+    --text-muted: #7e8aa4;
+    --text-dim: #4a5570;
+    --sidebar-w: 260px;
+    --radius: 10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Sidebar ──────────────────────────────────────────── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+  .sidebar-header {
+    padding: 28px 22px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .sidebar-header .sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .sidebar-nav { padding: 14px 0 30px; }
+  .nav-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 6px 22px 4px;
+    margin-top: 8px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 22px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.18s ease;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 400;
+  }
+  .nav-item:hover { background: var(--surface-2); color: var(--text); }
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(232,184,75,0.08), transparent);
+    border-left-color: var(--gold);
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .nav-num {
+    width: 22px; height: 22px;
+    border-radius: 5px;
+    background: var(--surface-3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+    color: var(--text-dim);
+    transition: all 0.18s;
+  }
+  .nav-item.active .nav-num {
+    background: rgba(232,184,75,0.15);
+    color: var(--gold);
+  }
+
+  /* ── Main ─────────────────────────────────────────────── */
+  #main {
+    margin-left: var(--sidebar-w);
+    min-height: 100vh;
+  }
+
+  .unit-page { display: none; animation: fadeIn 0.3s ease; }
+  .unit-page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Unit Hero ─────────────────────────────────────────── */
+  .unit-hero {
+    padding: 56px 60px 44px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-hero::before {
+    content: attr(data-num);
+    position: absolute;
+    right: 50px; top: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 160px;
+    font-weight: 700;
+    color: rgba(232,184,75,0.04);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .unit-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(232,184,75,0.1);
+    border: 1px solid rgba(232,184,75,0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+  .unit-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .unit-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* ── Content ───────────────────────────────────────────── */
+  .unit-content { padding: 48px 60px 80px; }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    margin: 48px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 24px;
+    background: var(--gold);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  .subsection-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin: 32px 0 12px;
+  }
+
+  p { margin-bottom: 14px; color: var(--text); }
+
+  /* ── Formula Box ───────────────────────────────────────── */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+    margin: 16px 0 24px;
+  }
+  .formula-grid.single { grid-template-columns: 1fr; }
+  .formula-grid.two { grid-template-columns: 1fr 1fr; }
+  .formula-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .formula-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    position: relative;
+  }
+  .formula-box.blue { border-left-color: var(--blue); }
+  .formula-box.green { border-left-color: var(--green); }
+  .formula-box.red { border-left-color: var(--red); }
+  .formula-box.purple { border-left-color: var(--purple); }
+
+  .formula-label {
+    font-size: 10.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .formula-label.gold { color: var(--gold); }
+  .formula-label.blue { color: var(--blue); }
+  .formula-label.green { color: var(--green); }
+
+  .formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: #fff;
+    line-height: 1.6;
+  }
+  .formula .hi { color: var(--gold); }
+  .formula .bl { color: var(--blue); }
+  .formula .gr { color: var(--green); }
+  .formula .rd { color: var(--red); }
+  .formula .pu { color: var(--purple); }
+  .formula sub { font-size: 0.72em; }
+  .formula sup { font-size: 0.72em; }
+
+  .formula-note {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.5;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── Theorem Card ──────────────────────────────────────── */
+  .theorem-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 14px 0;
+    position: relative;
+  }
+  .theorem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .theorem-card.blue::before { background: linear-gradient(90deg, var(--blue), transparent); }
+  .theorem-card.green::before { background: linear-gradient(90deg, var(--green), transparent); }
+  .theorem-card.purple::before { background: linear-gradient(90deg, var(--purple), transparent); }
+
+  .theorem-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .theorem-card.blue .theorem-name { color: var(--blue); }
+  .theorem-card.green .theorem-name { color: var(--green); }
+  .theorem-card.purple .theorem-name { color: var(--purple); }
+
+  .theorem-body { font-size: 14px; color: var(--text); line-height: 1.7; }
+  .theorem-body strong { color: #fff; font-weight: 500; }
+
+  /* ── Tip / Warning ─────────────────────────────────────── */
+  .tip-box {
+    background: rgba(76, 186, 136, 0.07);
+    border: 1px solid rgba(76, 186, 136, 0.25);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 13.5px;
+    color: var(--text);
+  }
+  .tip-box::before { content: '💡 '; }
+  .warn-box {
+    background: rgba(224, 112, 106, 0.07);
+    border: 1px solid rgba(224, 112, 106, 0.25);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 13.5px;
+    color: var(--text);
+  }
+  .warn-box::before { content: '⚠️ '; }
+
+  /* ── Big Formula (centered display) ──────────────────────  */
+  .big-formula {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: #fff;
+    line-height: 2;
+  }
+  .big-formula .label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 12px;
+  }
+
+  /* ── Table ─────────────────────────────────────────────── */
+  .formula-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  .formula-table th {
+    background: var(--surface-3);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--border-light);
+  }
+  .formula-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .formula-table tr:last-child td { border-bottom: none; }
+  .formula-table tr:hover td { background: rgba(255,255,255,0.025); }
+  .formula-table .fx {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    color: #fff;
+  }
+  .formula-table .cond { color: var(--text-muted); font-size: 12.5px; }
+
+  /* ── Steps ─────────────────────────────────────────────── */
+  .steps {
+    counter-reset: step;
+    margin: 14px 0;
+  }
+  .step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step);
+    min-width: 26px; height: 26px;
+    background: rgba(232,184,75,0.12);
+    border: 1px solid rgba(232,184,75,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── Two column layout ─────────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 12px 0; }
+
+  /* ── Tags ──────────────────────────────────────────────── */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-left: 6px;
+  }
+  .tag-bc { background: rgba(155,127,212,0.2); color: var(--purple); border: 1px solid rgba(155,127,212,0.3); }
+  .tag-key { background: rgba(232,184,75,0.15); color: var(--gold); border: 1px solid rgba(232,184,75,0.25); }
+
+  /* ── Scrollbar ─────────────────────────────────────────── */
+  #main::-webkit-scrollbar { width: 6px; }
+  #main::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+  /* ── Home Page ─────────────────────────────────────────── */
+  .home-hero {
+    min-height: 100vh;
+    padding: 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(232,184,75,0.04) 0%, transparent 70%);
+  }
+  .home-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .home-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.08;
+    color: #fff;
+    margin-bottom: 22px;
+  }
+  .home-title span { color: var(--gold); }
+  .home-subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+  .unit-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width: 900px;
+  }
+  .unit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+  .unit-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+  .unit-card:hover::before { transform: scaleX(1); }
+  .unit-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .unit-card-name {
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    :root { --sidebar-w: 0px; }
+    #sidebar { transform: translateX(-260px); transition: transform 0.3s; width: 260px; }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    .unit-hero { padding: 36px 24px 28px; }
+    .unit-content { padding: 28px 24px 60px; }
+    .home-hero { padding: 40px 24px; }
+    .home-title { font-size: 44px; }
+    .unit-cards { grid-template-columns: repeat(2, 1fr); }
+    .formula-grid.two, .formula-grid.three { grid-template-columns: 1fr; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">AP Calc BC</div>
+    <div class="sub">Complete Study Guide</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="showPage('home')">
+      <div class="nav-num">⌂</div> Home
+    </div>
+
+    <div class="nav-label">Units</div>
+    <div class="nav-item" onclick="showPage('u1')"><div class="nav-num">1</div> Limits & Continuity</div>
+    <div class="nav-item" onclick="showPage('u2')"><div class="nav-num">2</div> Basic Differentiation</div>
+    <div class="nav-item" onclick="showPage('u3')"><div class="nav-num">3</div> Advanced Differentiation</div>
+    <div class="nav-item" onclick="showPage('u4')"><div class="nav-num">4</div> Contextual Applications</div>
+    <div class="nav-item" onclick="showPage('u5')"><div class="nav-num">5</div> Analytical Applications</div>
+    <div class="nav-item" onclick="showPage('u6')"><div class="nav-num">6</div> Integration</div>
+    <div class="nav-item" onclick="showPage('u7')"><div class="nav-num">7</div> Differential Equations</div>
+    <div class="nav-item" onclick="showPage('u8')"><div class="nav-num">8</div> Applications of Integration</div>
+    <div class="nav-item" onclick="showPage('u9')"><div class="nav-num">9</div> Parametric, Polar & Vectors</div>
+    <div class="nav-item" onclick="showPage('u10')"><div class="nav-num">10</div> Sequences & Series</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     MAIN
+════════════════════════════════════════════════════════════ -->
+<main id="main">
+
+<!-- ─── HOME ──────────────────────────────────────────────── -->
+<div id="home" class="unit-page active">
+  <div class="home-hero">
+    <div class="home-eyebrow">AP Calculus BC · Complete Reference</div>
+    <h1 class="home-title">Every Formula.<br>Every Theorem.<br><span>Every Topic.</span></h1>
+    <p class="home-subtitle">A comprehensive study guide covering all 10 units of AP Calculus BC — from limits to infinite series. Every formula, theorem, technique, and problem type you need to know.</p>
+    <div class="unit-cards">
+      <div class="unit-card" onclick="showPage('u1')"><div class="unit-card-num">Unit 1</div><div class="unit-card-name">Limits & Continuity</div></div>
+      <div class="unit-card" onclick="showPage('u2')"><div class="unit-card-num">Unit 2</div><div class="unit-card-name">Basic Differentiation</div></div>
+      <div class="unit-card" onclick="showPage('u3')"><div class="unit-card-num">Unit 3</div><div class="unit-card-name">Advanced Differentiation</div></div>
+      <div class="unit-card" onclick="showPage('u4')"><div class="unit-card-num">Unit 4</div><div class="unit-card-name">Contextual Applications</div></div>
+      <div class="unit-card" onclick="showPage('u5')"><div class="unit-card-num">Unit 5</div><div class="unit-card-name">Analytical Applications</div></div>
+      <div class="unit-card" onclick="showPage('u6')"><div class="unit-card-num">Unit 6</div><div class="unit-card-name">Integration</div></div>
+      <div class="unit-card" onclick="showPage('u7')"><div class="unit-card-num">Unit 7</div><div class="unit-card-name">Differential Equations</div></div>
+      <div class="unit-card" onclick="showPage('u8')"><div class="unit-card-num">Unit 8</div><div class="unit-card-name">Applications of Integration</div></div>
+      <div class="unit-card" onclick="showPage('u9')"><div class="unit-card-num">Unit 9</div><div class="unit-card-name">Parametric, Polar & Vectors</div></div>
+      <div class="unit-card" onclick="showPage('u10')"><div class="unit-card-num">Unit 10</div><div class="unit-card-name">Sequences & Series</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 1: LIMITS & CONTINUITY
+════════════════════════════════════════════════════════════ -->
+<div id="u1" class="unit-page">
+  <div class="unit-hero" data-num="1">
+    <div class="unit-tag">Unit 1</div>
+    <h1 class="unit-title">Limits &amp; Continuity</h1>
+    <p class="unit-desc">The foundation of calculus. Formal definitions, limit laws, special limits, continuity, and the key theorems that underpin everything that follows.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Informal & Formal Definition of a Limit</div>
+    <p>The limit of f(x) as x approaches c equals L means f(x) gets arbitrarily close to L as x gets close (but not equal) to c.</p>
+    <div class="theorem-card">
+      <div class="theorem-name">ε-δ Formal Definition</div>
+      <div class="theorem-body">
+        lim<sub>x→c</sub> f(x) = L means: for every ε > 0, there exists δ > 0 such that<br>
+        <strong>0 &lt; |x − c| &lt; δ  ⟹  |f(x) − L| &lt; ε</strong>
+      </div>
+    </div>
+    <div class="warn-box">The limit does NOT care about the value of f(c) — only what happens near c.</div>
+
+    <div class="section-title">Limit Laws</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Sum / Difference</div>
+        <div class="formula">lim[f ± g] = <span class="hi">lim f ± lim g</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Constant Multiple</div>
+        <div class="formula">lim[c·f(x)] = <span class="hi">c · lim f(x)</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Product</div>
+        <div class="formula">lim[f·g] = <span class="hi">lim f · lim g</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Quotient</div>
+        <div class="formula">lim[f/g] = <span class="hi">lim f / lim g</span>  (lim g ≠ 0)</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Power</div>
+        <div class="formula">lim[f(x)]<sup>n</sup> = <span class="hi">[lim f(x)]<sup>n</sup></span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Root</div>
+        <div class="formula">lim √f(x) = <span class="hi">√(lim f(x))</span></div>
+      </div>
+    </div>
+
+    <div class="section-title">Special / Essential Limits</div>
+    <div class="formula-grid three">
+      <div class="formula-box">
+        <div class="formula-label gold">Trig Limit #1 <span class="tag tag-key">KEY</span></div>
+        <div class="formula">lim<sub>x→0</sub> <span class="hi">sin(x)/x = 1</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Trig Limit #2 <span class="tag tag-key">KEY</span></div>
+        <div class="formula">lim<sub>x→0</sub> <span class="hi">(1−cos x)/x = 0</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Natural Base</div>
+        <div class="formula">lim<sub>n→∞</sub> (1 + 1/n)<sup>n</sup> = <span class="hi">e</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">General Form</div>
+        <div class="formula">lim<sub>x→0</sub> (1 + x)<sup>1/x</sup> = <span class="hi">e</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Exponential</div>
+        <div class="formula">lim<sub>x→0</sub> (e<sup>x</sup>−1)/x = <span class="hi">1</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Logarithm</div>
+        <div class="formula">lim<sub>x→0</sub> ln(1+x)/x = <span class="hi">1</span></div>
+      </div>
+    </div>
+
+    <div class="section-title">One-Sided Limits</div>
+    <p>lim<sub>x→c</sub> f(x) exists if and only if both one-sided limits exist and are equal.</p>
+    <div class="big-formula">
+      lim<sub>x→c</sub> f(x) = L  ⟺  lim<sub>x→c⁻</sub> f(x) = L  <span style="color:var(--gold)">AND</span>  lim<sub>x→c⁺</sub> f(x) = L
+    </div>
+
+    <div class="section-title">Limits at Infinity & Asymptotes</div>
+    <div class="subsection-title">Horizontal Asymptotes</div>
+    <div class="formula-grid two">
+      <div class="formula-box blue">
+        <div class="formula-label blue">Rational Functions — Degree Comparison</div>
+        <div class="formula">
+          deg(num) &lt; deg(den): <span class="bl">lim = 0</span><br>
+          deg(num) = deg(den): <span class="bl">lim = lead coeff ratio</span><br>
+          deg(num) &gt; deg(den): <span class="bl">lim = ±∞ (no H.A.)</span>
+        </div>
+      </div>
+      <div class="formula-box blue">
+        <div class="formula-label blue">Exponential Growth Hierarchy</div>
+        <div class="formula">
+          ln(x) ≪ x<sup>n</sup> ≪ a<sup>x</sup> ≪ x! ≪ x<sup>x</sup><br>
+          <span class="bl">(as x→∞)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Vertical Asymptotes</div>
+    <p>x = c is a vertical asymptote if lim<sub>x→c</sub> f(x) = ±∞. This happens when the denominator → 0 and the numerator ≠ 0 at x = c.</p>
+
+    <div class="section-title">Squeeze Theorem</div>
+    <div class="theorem-card green">
+      <div class="theorem-name">Squeeze Theorem</div>
+      <div class="theorem-body">
+        If <strong>g(x) ≤ f(x) ≤ h(x)</strong> near x = c, and<br>
+        lim<sub>x→c</sub> g(x) = lim<sub>x→c</sub> h(x) = <strong>L</strong>,<br>
+        then <strong>lim<sub>x→c</sub> f(x) = L</strong>.<br><br>
+        Classic use: lim<sub>x→0</sub> x²·sin(1/x) = 0 since |x²·sin(1/x)| ≤ x².
+      </div>
+    </div>
+
+    <div class="section-title">Continuity</div>
+    <div class="theorem-card">
+      <div class="theorem-name">Three Conditions for Continuity at x = c</div>
+      <div class="theorem-body">
+        1. <strong>f(c) is defined</strong><br>
+        2. <strong>lim<sub>x→c</sub> f(x) exists</strong><br>
+        3. <strong>lim<sub>x→c</sub> f(x) = f(c)</strong><br><br>
+        All three must hold. Fail any one → discontinuous.
+      </div>
+    </div>
+
+    <div class="subsection-title">Types of Discontinuities</div>
+    <div class="formula-grid three">
+      <div class="formula-box">
+        <div class="formula-label">Removable (Hole)</div>
+        <div class="formula">lim exists but ≠ f(c)</div>
+        <div class="formula-note">The limit exists; f(c) is either undefined or wrong value. "Fixable" by redefining f(c).</div>
+      </div>
+      <div class="formula-box red">
+        <div class="formula-label">Jump</div>
+        <div class="formula">lim<sub>c⁻</sub> ≠ lim<sub>c⁺</sub></div>
+        <div class="formula-note">Left and right limits both exist but differ. Common in piecewise functions.</div>
+      </div>
+      <div class="formula-box red">
+        <div class="formula-label">Infinite (Essential)</div>
+        <div class="formula">lim = ±∞</div>
+        <div class="formula-note">Vertical asymptote at x = c. Not removable.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Intermediate Value Theorem (IVT)</div>
+    <div class="theorem-card">
+      <div class="theorem-name">Intermediate Value Theorem</div>
+      <div class="theorem-body">
+        If f is <strong>continuous</strong> on [a, b] and M is any value between f(a) and f(b), then there exists at least one c ∈ (a, b) such that <strong>f(c) = M</strong>.<br><br>
+        <strong>Key use:</strong> Proving a root/zero exists — if f(a) &lt; 0 and f(b) &gt; 0 (or vice versa), a root must exist in (a, b).
+      </div>
+    </div>
+    <div class="tip-box">IVT guarantees existence, not uniqueness. Always verify continuity first!</div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 2: BASIC DIFFERENTIATION
+════════════════════════════════════════════════════════════ -->
+<div id="u2" class="unit-page">
+  <div class="unit-hero" data-num="2">
+    <div class="unit-tag">Unit 2</div>
+    <h1 class="unit-title">Basic Differentiation</h1>
+    <p class="unit-desc">Definition of the derivative, all core differentiation rules, and the complete table of derivatives for algebraic, trigonometric, exponential, and logarithmic functions.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Definition of the Derivative</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Limit Definition (at a point)</div>
+        <div class="formula">f'(a) = lim<sub>h→0</sub> <span class="hi">[f(a+h) − f(a)] / h</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Alternate Form</div>
+        <div class="formula">f'(a) = lim<sub>x→a</sub> <span class="hi">[f(x) − f(a)] / (x−a)</span></div>
+      </div>
+    </div>
+    <p>The derivative f'(x) gives the instantaneous rate of change of f at x, and the slope of the tangent line to f at (x, f(x)).</p>
+
+    <div class="theorem-card">
+      <div class="theorem-name">Differentiability ⟹ Continuity</div>
+      <div class="theorem-body">If f is differentiable at x = c, then f is continuous at x = c.<br>
+      <strong>The converse is FALSE</strong> — continuous does not mean differentiable.<br>
+      Fails at: corners, cusps, vertical tangents, jumps.</div>
+    </div>
+
+    <div class="section-title">Core Differentiation Rules</div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Constant Rule</div><div class="formula">d/dx[<span class="hi">c</span>] = 0</div></div>
+      <div class="formula-box"><div class="formula-label gold">Power Rule <span class="tag tag-key">MOST USED</span></div><div class="formula">d/dx[x<sup>n</sup>] = <span class="hi">nx<sup>n−1</sup></span></div></div>
+      <div class="formula-box"><div class="formula-label">Constant Multiple</div><div class="formula">d/dx[c·f] = <span class="hi">c·f'</span></div></div>
+      <div class="formula-box"><div class="formula-label">Sum / Difference</div><div class="formula">d/dx[f ± g] = <span class="hi">f' ± g'</span></div></div>
+    </div>
+
+    <div class="subsection-title">Product & Quotient Rules</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Product Rule <span class="tag tag-key">KEY</span></div>
+        <div class="formula">d/dx[<span class="hi">u·v</span>] = <span class="gr">u'v + uv'</span></div>
+        <div class="formula-note">"First times derivative of second, plus second times derivative of first"</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Quotient Rule <span class="tag tag-key">KEY</span></div>
+        <div class="formula">d/dx[<span class="hi">u/v</span>] = <span class="gr">(u'v − uv') / v²</span></div>
+        <div class="formula-note">"Low d-High minus High d-Low, over Low squared"</div>
+      </div>
+    </div>
+
+    <div class="section-title">Derivatives of Trigonometric Functions</div>
+    <table class="formula-table">
+      <tr><th>Function f(x)</th><th>Derivative f'(x)</th><th>Note</th></tr>
+      <tr><td class="fx">sin(x)</td><td class="fx" style="color:var(--gold)">cos(x)</td><td></td></tr>
+      <tr><td class="fx">cos(x)</td><td class="fx" style="color:var(--gold)">−sin(x)</td><td></td></tr>
+      <tr><td class="fx">tan(x)</td><td class="fx" style="color:var(--gold)">sec²(x)</td><td></td></tr>
+      <tr><td class="fx">cot(x)</td><td class="fx" style="color:var(--gold)">−csc²(x)</td><td></td></tr>
+      <tr><td class="fx">sec(x)</td><td class="fx" style="color:var(--gold)">sec(x)·tan(x)</td><td></td></tr>
+      <tr><td class="fx">csc(x)</td><td class="fx" style="color:var(--gold)">−csc(x)·cot(x)</td><td></td></tr>
+    </table>
+    <div class="tip-box">Derivatives of co-functions (cos, cot, csc) all have a negative sign. Easy pattern to remember!</div>
+
+    <div class="section-title">Exponential & Logarithmic Derivatives</div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label gold">Natural Exponential</div><div class="formula">d/dx[<span class="hi">e<sup>x</sup></span>] = e<sup>x</sup></div><div class="formula-note">The only function equal to its own derivative.</div></div>
+      <div class="formula-box"><div class="formula-label">General Exponential</div><div class="formula">d/dx[<span class="hi">a<sup>x</sup></span>] = a<sup>x</sup>·ln(a)</div></div>
+      <div class="formula-box"><div class="formula-label gold">Natural Log</div><div class="formula">d/dx[<span class="hi">ln(x)</span>] = 1/x  (x > 0)</div></div>
+      <div class="formula-box"><div class="formula-label">General Log</div><div class="formula">d/dx[<span class="hi">log<sub>a</sub>(x)</span>] = 1/(x·ln a)</div></div>
+      <div class="formula-box"><div class="formula-label">|x| version</div><div class="formula">d/dx[ln|x|] = <span class="hi">1/x</span>  (x ≠ 0)</div></div>
+    </div>
+
+    <div class="section-title">Tangent Lines & Normal Lines</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label blue">Tangent Line at (a, f(a))</div>
+        <div class="formula">y − f(a) = <span class="bl">f'(a)</span>(x − a)</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label blue">Normal Line at (a, f(a))</div>
+        <div class="formula">y − f(a) = <span class="bl">−1/f'(a)</span>(x − a)</div>
+        <div class="formula-note">Normal line is perpendicular to tangent (slopes are negative reciprocals)</div>
+      </div>
+    </div>
+
+    <div class="section-title">Higher-Order Derivatives</div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Notation</div><div class="formula">f', f'', f''', f<sup>(4)</sup>, ..., f<sup>(n)</sup><br><span class="hi">dy/dx, d²y/dx², d³y/dx³</span></div></div>
+      <div class="formula-box"><div class="formula-label">Common Higher Derivatives</div><div class="formula">d<sup>n</sup>/dx<sup>n</sup>[sin x] cycles:<br><span class="hi">sin, cos, −sin, −cos, sin...</span></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 3: ADVANCED DIFFERENTIATION
+════════════════════════════════════════════════════════════ -->
+<div id="u3" class="unit-page">
+  <div class="unit-hero" data-num="3">
+    <div class="unit-tag">Unit 3</div>
+    <h1 class="unit-title">Advanced Differentiation</h1>
+    <p class="unit-desc">Chain rule, implicit differentiation, inverse function derivatives, and all inverse trigonometric derivatives.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Chain Rule</div>
+    <div class="big-formula">
+      <span class="label">Chain Rule — Composite Functions</span>
+      d/dx[f(g(x))]  =  f'(g(x)) · g'(x)
+    </div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Leibniz Notation</div><div class="formula">dy/dx = <span class="hi">dy/du · du/dx</span></div></div>
+      <div class="formula-box"><div class="formula-label">Chain + Power</div><div class="formula">d/dx[u<sup>n</sup>] = <span class="hi">n·u<sup>n−1</sup>·u'</span></div></div>
+      <div class="formula-box"><div class="formula-label">Chain + Trig</div><div class="formula">d/dx[sin(u)] = <span class="hi">cos(u)·u'</span></div></div>
+      <div class="formula-box"><div class="formula-label">Chain + Exp</div><div class="formula">d/dx[e<sup>u</sup>] = <span class="hi">e<sup>u</sup>·u'</span></div></div>
+      <div class="formula-box"><div class="formula-label">Chain + Log</div><div class="formula">d/dx[ln(u)] = <span class="hi">u'/u</span></div></div>
+      <div class="formula-box"><div class="formula-label">General Power (a<sup>u</sup>)</div><div class="formula">d/dx[a<sup>u</sup>] = <span class="hi">a<sup>u</sup>·ln(a)·u'</span></div></div>
+    </div>
+    <div class="tip-box">With nested chains, "peel the onion" — differentiate the outermost function first, then multiply by derivative of the inner function.</div>
+
+    <div class="section-title">Implicit Differentiation</div>
+    <p>Used when y cannot be solved explicitly in terms of x, or when it's easier not to. Differentiate both sides with respect to x, treating y as a function of x and applying the chain rule.</p>
+    <div class="steps">
+      <div class="step">Differentiate every term with respect to x. Terms with y get an extra factor of dy/dx (chain rule).</div>
+      <div class="step">Collect all dy/dx terms on one side.</div>
+      <div class="step">Factor out dy/dx and solve.</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label gold">Key Rule</div>
+      <div class="formula">d/dx[y<sup>n</sup>] = <span class="hi">n·y<sup>n−1</sup> · (dy/dx)</span></div>
+      <div class="formula-note">Example: d/dx[x² + y²] = 2x + 2y·(dy/dx). If this equals 0, then dy/dx = −x/y.</div>
+    </div>
+
+    <div class="section-title">Derivatives of Inverse Functions</div>
+    <div class="theorem-card">
+      <div class="theorem-name">Inverse Function Derivative Theorem</div>
+      <div class="theorem-body">
+        If f and f⁻¹ are inverse functions and f is differentiable at f⁻¹(x), then:<br><br>
+        <strong>(f⁻¹)'(x) = 1 / f'(f⁻¹(x))</strong><br><br>
+        In other words: <strong>dx/dy = 1 / (dy/dx)</strong>
+      </div>
+    </div>
+    <div class="tip-box">On the AP exam: "If f(3) = 7 and f'(3) = 4, find (f⁻¹)'(7)." Answer: 1/f'(3) = 1/4.</div>
+
+    <div class="section-title">Derivatives of Inverse Trigonometric Functions</div>
+    <table class="formula-table">
+      <tr><th>Function</th><th>Derivative</th><th>Domain</th></tr>
+      <tr><td class="fx">arcsin(x)</td><td class="fx" style="color:var(--gold)">1 / √(1−x²)</td><td class="cond">|x| &lt; 1</td></tr>
+      <tr><td class="fx">arccos(x)</td><td class="fx" style="color:var(--gold)">−1 / √(1−x²)</td><td class="cond">|x| &lt; 1</td></tr>
+      <tr><td class="fx">arctan(x)</td><td class="fx" style="color:var(--gold)">1 / (1+x²)</td><td class="cond">all x</td></tr>
+      <tr><td class="fx">arccot(x)</td><td class="fx" style="color:var(--gold)">−1 / (1+x²)</td><td class="cond">all x</td></tr>
+      <tr><td class="fx">arcsec(x)</td><td class="fx" style="color:var(--gold)">1 / (|x|√(x²−1))</td><td class="cond">|x| &gt; 1</td></tr>
+      <tr><td class="fx">arccsc(x)</td><td class="fx" style="color:var(--gold)">−1 / (|x|√(x²−1))</td><td class="cond">|x| &gt; 1</td></tr>
+    </table>
+    <p>With chain rule: d/dx[arctan(u)] = u' / (1 + u²). Apply this pattern to all inverse trig formulas.</p>
+
+    <div class="section-title">Logarithmic Differentiation</div>
+    <p>Use when differentiating complex products/quotients or variable-base exponentials like x<sup>sin x</sup>.</p>
+    <div class="steps">
+      <div class="step">Take ln of both sides: ln y = ln[f(x)]</div>
+      <div class="step">Simplify using log properties (ln(ab) = ln a + ln b, etc.)</div>
+      <div class="step">Differentiate both sides implicitly: (1/y)·y' = [simplified expression]</div>
+      <div class="step">Solve for y' and substitute back y = f(x)</div>
+    </div>
+    <div class="formula-box purple">
+      <div class="formula-label">Variable Exponent: y = x<sup>x</sup></div>
+      <div class="formula">ln y = x·ln x  →  y'/y = ln x + 1<br><span class="pu">y' = x<sup>x</sup>(ln x + 1)</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 4: CONTEXTUAL APPLICATIONS
+════════════════════════════════════════════════════════════ -->
+<div id="u4" class="unit-page">
+  <div class="unit-hero" data-num="4">
+    <div class="unit-tag">Unit 4</div>
+    <h1 class="unit-title">Contextual Applications of Differentiation</h1>
+    <p class="unit-desc">Motion problems, related rates, linearization, and L'Hôpital's Rule for indeterminate forms.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Motion Along a Line</div>
+    <div class="formula-grid three">
+      <div class="formula-box"><div class="formula-label gold">Position</div><div class="formula"><span class="hi">s(t)</span>  or  x(t)</div></div>
+      <div class="formula-box"><div class="formula-label gold">Velocity</div><div class="formula"><span class="hi">v(t) = s'(t)</span></div></div>
+      <div class="formula-box"><div class="formula-label gold">Acceleration</div><div class="formula"><span class="hi">a(t) = v'(t) = s''(t)</span></div></div>
+      <div class="formula-box"><div class="formula-label blue">Speed</div><div class="formula"><span class="bl">|v(t)|</span>  (always ≥ 0)</div></div>
+      <div class="formula-box"><div class="formula-label blue">Speeding Up</div><div class="formula">v and a have <span class="bl">same sign</span></div></div>
+      <div class="formula-box"><div class="formula-label blue">Slowing Down</div><div class="formula">v and a have <span class="bl">opposite signs</span></div></div>
+    </div>
+    <div class="tip-box">Particle changes direction when v(t) = 0 AND v changes sign. Always check the sign change!</div>
+
+    <div class="section-title">Related Rates</div>
+    <p>Variables change with respect to time. Use implicit differentiation with respect to t.</p>
+    <div class="steps">
+      <div class="step">Draw a diagram and label all variables.</div>
+      <div class="step">Write an equation relating the variables (geometric formula, Pythagorean theorem, similar triangles, etc.).</div>
+      <div class="step">Differentiate both sides with respect to t (implicit differentiation).</div>
+      <div class="step">Substitute the known values (NOT before differentiating!) and solve for the unknown rate.</div>
+    </div>
+
+    <div class="subsection-title">Common Related Rate Setups</div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Pythagorean (Ladder Problems)</div><div class="formula">a² + b² = c²<br>2a(da/dt) + 2b(db/dt) = 2c(dc/dt)</div></div>
+      <div class="formula-box"><div class="formula-label">Circle Area</div><div class="formula">A = πr² →<br>dA/dt = <span class="hi">2πr · (dr/dt)</span></div></div>
+      <div class="formula-box"><div class="formula-label">Sphere Volume</div><div class="formula">V = (4/3)πr³ →<br>dV/dt = <span class="hi">4πr² · (dr/dt)</span></div></div>
+      <div class="formula-box"><div class="formula-label">Cone Volume</div><div class="formula">V = (1/3)πr²h →<br>use similar triangles to eliminate one variable</div></div>
+    </div>
+
+    <div class="section-title">Linear Approximation (Linearization)</div>
+    <div class="big-formula">
+      <span class="label">Linearization of f at x = a</span>
+      L(x)  =  f(a)  +  f'(a)(x − a)
+    </div>
+    <p>L(x) is the tangent line at x = a used to approximate f(x) for x near a.</p>
+    <div class="formula-box">
+      <div class="formula-label">Differential</div>
+      <div class="formula">dy = f'(x)·dx  ≈  Δy = f(x+Δx) − f(x)</div>
+      <div class="formula-note">Used to estimate small changes. If dx is small, dy ≈ the actual change in y.</div>
+    </div>
+
+    <div class="section-title">L'Hôpital's Rule <span class="tag tag-key">BC KEY</span></div>
+    <div class="theorem-card">
+      <div class="theorem-name">L'Hôpital's Rule</div>
+      <div class="theorem-body">
+        If lim f(x)/g(x) gives the indeterminate form <strong>0/0</strong> or <strong>∞/∞</strong>, then:<br><br>
+        <strong>lim f(x)/g(x) = lim f'(x)/g'(x)</strong><br><br>
+        provided the limit on the right exists (or is ±∞).
+      </div>
+    </div>
+
+    <div class="subsection-title">Indeterminate Forms → How to Handle</div>
+    <table class="formula-table">
+      <tr><th>Form</th><th>Strategy</th></tr>
+      <tr><td class="fx">0/0, ∞/∞</td><td>Apply L'Hôpital directly</td></tr>
+      <tr><td class="fx">0·∞</td><td>Rewrite as 0/(1/∞) or ∞/(1/0), then L'Hôpital</td></tr>
+      <tr><td class="fx">∞ − ∞</td><td>Combine fractions or rationalize</td></tr>
+      <tr><td class="fx">1<sup>∞</sup>, 0<sup>0</sup>, ∞<sup>0</sup></td><td>Take ln, then apply L'Hôpital to the ln form</td></tr>
+    </table>
+    <div class="warn-box">L'Hôpital does NOT apply if the limit is NOT indeterminate. Verify the form first!</div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 5: ANALYTICAL APPLICATIONS
+════════════════════════════════════════════════════════════ -->
+<div id="u5" class="unit-page">
+  <div class="unit-hero" data-num="5">
+    <div class="unit-tag">Unit 5</div>
+    <h1 class="unit-title">Analytical Applications of Differentiation</h1>
+    <p class="unit-desc">MVT, EVT, Rolle's Theorem, finding extrema, concavity analysis, curve sketching, and optimization.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Key Theorems</div>
+    <div class="theorem-card">
+      <div class="theorem-name">Extreme Value Theorem (EVT)</div>
+      <div class="theorem-body">If f is <strong>continuous on [a, b]</strong>, then f attains both an absolute maximum and an absolute minimum on [a, b].</div>
+    </div>
+    <div class="theorem-card">
+      <div class="theorem-name">Rolle's Theorem</div>
+      <div class="theorem-body">If f is <strong>continuous on [a,b]</strong>, <strong>differentiable on (a,b)</strong>, and <strong>f(a) = f(b)</strong>, then there exists at least one c ∈ (a, b) such that <strong>f'(c) = 0</strong>.</div>
+    </div>
+    <div class="theorem-card">
+      <div class="theorem-name">Mean Value Theorem (MVT)</div>
+      <div class="theorem-body">If f is <strong>continuous on [a,b]</strong> and <strong>differentiable on (a,b)</strong>, then there exists at least one c ∈ (a, b) such that:<br><br>
+      <strong>f'(c) = [f(b) − f(a)] / (b − a)</strong><br><br>
+      The instantaneous rate of change equals the average rate of change somewhere.</div>
+    </div>
+    <div class="tip-box">MVT is Rolle's Theorem without the f(a) = f(b) requirement. Rolle's is a special case of MVT.</div>
+
+    <div class="section-title">Critical Points & Extrema</div>
+    <div class="formula-box">
+      <div class="formula-label gold">Critical Point Definition</div>
+      <div class="formula">f'(c) = 0  OR  f'(c) does not exist (DNE)</div>
+      <div class="formula-note">Critical points are candidates for local extrema. But not every critical point is an extremum!</div>
+    </div>
+
+    <div class="subsection-title">Finding Absolute Extrema on [a, b]</div>
+    <div class="steps">
+      <div class="step">Find all critical points in (a, b).</div>
+      <div class="step">Evaluate f at each critical point AND at the endpoints a and b.</div>
+      <div class="step">The largest value is the absolute max; the smallest is the absolute min.</div>
+    </div>
+
+    <div class="section-title">First & Second Derivative Tests</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">First Derivative Test</div>
+        <div class="formula">
+          f' changes <span class="gr">+ → −</span>: local <span class="gr">MAX</span><br>
+          f' changes <span class="rd">− → +</span>: local <span class="rd">MIN</span><br>
+          f' no sign change: <span class="hi">no extremum</span>
+        </div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Second Derivative Test</div>
+        <div class="formula">
+          f'(c) = 0 AND f''(c) &lt; 0: local <span class="gr">MAX</span><br>
+          f'(c) = 0 AND f''(c) &gt; 0: local <span class="rd">MIN</span><br>
+          f''(c) = 0: <span class="hi">inconclusive</span> (use 1st test)
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Concavity & Inflection Points</div>
+    <div class="formula-grid two">
+      <div class="formula-box green">
+        <div class="formula-label green">Concave Up</div>
+        <div class="formula">f''(x) &gt; 0 on interval<br><span class="gr">tangent lines lie BELOW the curve</span></div>
+      </div>
+      <div class="formula-box red">
+        <div class="formula-label">Concave Down</div>
+        <div class="formula">f''(x) &lt; 0 on interval<br><span class="rd">tangent lines lie ABOVE the curve</span></div>
+      </div>
+    </div>
+    <div class="theorem-card blue">
+      <div class="theorem-name">Inflection Point</div>
+      <div class="theorem-body">A point where concavity changes (from up to down or vice versa). Find candidates where f''(x) = 0 or DNE, then <strong>verify</strong> that f'' changes sign. Just f''(c) = 0 is NOT enough!</div>
+    </div>
+
+    <div class="section-title">Curve Sketching Checklist</div>
+    <div class="steps">
+      <div class="step"><strong>Domain & Intercepts:</strong> Where is f defined? Find x- and y-intercepts.</div>
+      <div class="step"><strong>Symmetry:</strong> Even (symmetric about y-axis), odd (symmetric about origin)?</div>
+      <div class="step"><strong>Asymptotes:</strong> Horizontal (limits at ±∞), vertical (where denominator = 0).</div>
+      <div class="step"><strong>Increasing/Decreasing:</strong> Find f', solve f' = 0, make sign chart.</div>
+      <div class="step"><strong>Local Extrema:</strong> Apply first or second derivative test at critical points.</div>
+      <div class="step"><strong>Concavity & Inflection:</strong> Find f'', solve f'' = 0, make sign chart.</div>
+      <div class="step"><strong>Sketch:</strong> Plot key points and connect with proper behavior.</div>
+    </div>
+
+    <div class="section-title">Optimization</div>
+    <div class="steps">
+      <div class="step">Identify the quantity to maximize or minimize (the <em>objective function</em>).</div>
+      <div class="step">Write a constraint equation relating the variables.</div>
+      <div class="step">Use the constraint to reduce the objective to one variable.</div>
+      <div class="step">Find the derivative, set equal to zero, and solve for critical points.</div>
+      <div class="step">Verify it's a max or min using first/second derivative test or endpoints.</div>
+      <div class="step">Answer the question in context (include units!).</div>
+    </div>
+    <div class="tip-box">Common optimization setups: max area with fixed perimeter, min material for fixed volume, max revenue/profit, closest point on curve to a given point.</div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 6: INTEGRATION
+════════════════════════════════════════════════════════════ -->
+<div id="u6" class="unit-page">
+  <div class="unit-hero" data-num="6">
+    <div class="unit-tag">Unit 6</div>
+    <h1 class="unit-title">Integration &amp; Accumulation of Change</h1>
+    <p class="unit-desc">Riemann sums, the Fundamental Theorem of Calculus, antiderivatives, and all integration techniques: u-substitution, integration by parts, partial fractions, and improper integrals.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Riemann Sums</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Subinterval Width</div>
+        <div class="formula">Δx = <span class="hi">(b − a) / n</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label blue">Left Riemann Sum</div>
+        <div class="formula">L<sub>n</sub> = Δx · Σ<sub>i=0</sub><sup>n-1</sup> <span class="bl">f(x<sub>i</sub>)</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label blue">Right Riemann Sum</div>
+        <div class="formula">R<sub>n</sub> = Δx · Σ<sub>i=1</sub><sup>n</sup> <span class="bl">f(x<sub>i</sub>)</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label blue">Midpoint Sum</div>
+        <div class="formula">M<sub>n</sub> = Δx · Σ f(<span class="bl">midpoints</span>)</div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label gold">Trapezoidal Rule <span class="tag tag-key">KEY</span></div>
+      <div class="formula">T<sub>n</sub> = (Δx/2)[f(x<sub>0</sub>) + <span class="hi">2f(x<sub>1</sub>) + 2f(x<sub>2</sub>) + ... + 2f(x<sub>n-1</sub>)</span> + f(x<sub>n</sub>)]</div>
+      <div class="formula-note">Average of Left and Right sums: T<sub>n</sub> = (L<sub>n</sub> + R<sub>n</sub>)/2. Overestimates for concave up, underestimates for concave down.</div>
+    </div>
+    <div class="tip-box">
+      Overestimate/Underestimate summary:<br>
+      Increasing f: Left underestimates, Right overestimates.<br>
+      Decreasing f: Left overestimates, Right underestimates.<br>
+      Concave up: Trapezoidal overestimates, Midpoint underestimates.<br>
+      Concave down: Trapezoidal underestimates, Midpoint overestimates.
+    </div>
+
+    <div class="section-title">Fundamental Theorem of Calculus</div>
+    <div class="theorem-card">
+      <div class="theorem-name">FTC Part 1 — Evaluation Theorem</div>
+      <div class="theorem-body">
+        If F is an antiderivative of f (F' = f), then:<br><br>
+        <strong>∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a)</strong><br><br>
+        Also written as [F(x)]<sub>a</sub><sup>b</sup>
+      </div>
+    </div>
+    <div class="theorem-card">
+      <div class="theorem-name">FTC Part 2 — Antiderivative Theorem</div>
+      <div class="theorem-body">
+        If f is continuous on [a, b], then the function<br>
+        <strong>g(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt</strong><br>
+        is continuous on [a, b], differentiable on (a, b), and <strong>g'(x) = f(x)</strong>.<br><br>
+        With chain rule: d/dx[∫<sub>a</sub><sup>g(x)</sup> f(t) dt] = <strong>f(g(x)) · g'(x)</strong>
+      </div>
+    </div>
+
+    <div class="section-title">Properties of Definite Integrals</div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Zero Width</div><div class="formula">∫<sub>a</sub><sup>a</sup> f(x)dx = <span class="hi">0</span></div></div>
+      <div class="formula-box"><div class="formula-label">Reverse Limits</div><div class="formula">∫<sub>a</sub><sup>b</sup> f dx = <span class="hi">−∫<sub>b</sub><sup>a</sup> f dx</span></div></div>
+      <div class="formula-box"><div class="formula-label">Constant</div><div class="formula">∫<sub>a</sub><sup>b</sup> c·f dx = <span class="hi">c ∫<sub>a</sub><sup>b</sup> f dx</span></div></div>
+      <div class="formula-box"><div class="formula-label">Sum/Difference</div><div class="formula">∫(f±g)dx = <span class="hi">∫f dx ± ∫g dx</span></div></div>
+      <div class="formula-box"><div class="formula-label">Additive Interval</div><div class="formula">∫<sub>a</sub><sup>c</sup> f dx = <span class="hi">∫<sub>a</sub><sup>b</sup> f dx + ∫<sub>b</sub><sup>c</sup> f dx</span></div></div>
+      <div class="formula-box"><div class="formula-label">Comparison</div><div class="formula">f ≥ g on [a,b] ⟹ ∫f ≥ ∫g</div></div>
+    </div>
+
+    <div class="section-title">Complete Antiderivative Table</div>
+    <table class="formula-table">
+      <tr><th>f(x)</th><th>∫f(x) dx</th></tr>
+      <tr><td class="fx">x<sup>n</sup>  (n ≠ −1)</td><td class="fx" style="color:var(--gold)">x<sup>n+1</sup>/(n+1) + C</td></tr>
+      <tr><td class="fx">1/x = x<sup>−1</sup></td><td class="fx" style="color:var(--gold)">ln|x| + C</td></tr>
+      <tr><td class="fx">e<sup>x</sup></td><td class="fx" style="color:var(--gold)">e<sup>x</sup> + C</td></tr>
+      <tr><td class="fx">a<sup>x</sup></td><td class="fx" style="color:var(--gold)">a<sup>x</sup>/ln(a) + C</td></tr>
+      <tr><td class="fx">sin(x)</td><td class="fx" style="color:var(--gold)">−cos(x) + C</td></tr>
+      <tr><td class="fx">cos(x)</td><td class="fx" style="color:var(--gold)">sin(x) + C</td></tr>
+      <tr><td class="fx">sec²(x)</td><td class="fx" style="color:var(--gold)">tan(x) + C</td></tr>
+      <tr><td class="fx">csc²(x)</td><td class="fx" style="color:var(--gold)">−cot(x) + C</td></tr>
+      <tr><td class="fx">sec(x)tan(x)</td><td class="fx" style="color:var(--gold)">sec(x) + C</td></tr>
+      <tr><td class="fx">csc(x)cot(x)</td><td class="fx" style="color:var(--gold)">−csc(x) + C</td></tr>
+      <tr><td class="fx">tan(x)</td><td class="fx" style="color:var(--gold)">ln|sec(x)| + C</td></tr>
+      <tr><td class="fx">1/√(1−x²)</td><td class="fx" style="color:var(--gold)">arcsin(x) + C</td></tr>
+      <tr><td class="fx">1/(1+x²)</td><td class="fx" style="color:var(--gold)">arctan(x) + C</td></tr>
+      <tr><td class="fx">1/(|x|√(x²−1))</td><td class="fx" style="color:var(--gold)">arcsec(x) + C</td></tr>
+    </table>
+
+    <div class="section-title">U-Substitution</div>
+    <p>Reverse of the chain rule. Used when an integral contains a composite function.</p>
+    <div class="steps">
+      <div class="step">Identify u = g(x) (usually the "inside" function).</div>
+      <div class="step">Find du = g'(x) dx. Solve for dx if needed.</div>
+      <div class="step">Rewrite the integral entirely in terms of u.</div>
+      <div class="step">Integrate with respect to u.</div>
+      <div class="step">Back-substitute u = g(x). (For definite integrals, change the limits to u-values instead.)</div>
+    </div>
+
+    <div class="section-title">Integration by Parts <span class="tag tag-bc">BC</span></div>
+    <div class="big-formula">
+      <span class="label">Integration by Parts</span>
+      ∫ u dv  =  uv  −  ∫ v du
+    </div>
+    <div class="formula-box">
+      <div class="formula-label gold">LIATE — Choosing u (pick first from this list)</div>
+      <div class="formula"><span class="hi">L</span>ogarithms · <span class="hi">I</span>nverse trig · <span class="hi">A</span>lgebraic · <span class="hi">T</span>rig · <span class="hi">E</span>xponential</div>
+      <div class="formula-note">The leftmost category should be u; the rightmost should be dv.</div>
+    </div>
+    <div class="tip-box">When IBP cycles back to the original integral (like ∫e<sup>x</sup>sin x dx), call the original integral I and solve for I algebraically.</div>
+
+    <div class="section-title">Partial Fraction Decomposition <span class="tag tag-bc">BC</span></div>
+    <p>Decomposes a rational function into simpler fractions before integrating.</p>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Distinct Linear Factors</div>
+        <div class="formula">P(x)/[(x−a)(x−b)] =<br><span class="hi">A/(x−a) + B/(x−b)</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Repeated Linear Factor</div>
+        <div class="formula">P(x)/(x−a)² =<br><span class="hi">A/(x−a) + B/(x−a)²</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Irreducible Quadratic</div>
+        <div class="formula">P(x)/[(x−a)(x²+bx+c)] =<br><span class="hi">A/(x−a) + (Bx+C)/(x²+bx+c)</span></div>
+      </div>
+    </div>
+    <div class="warn-box">The degree of the numerator must be less than the denominator. If not, do polynomial long division first.</div>
+
+    <div class="section-title">Improper Integrals <span class="tag tag-bc">BC</span></div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Infinite Upper Bound</div>
+        <div class="formula">∫<sub>a</sub><sup>∞</sup> f dx = lim<sub>t→∞</sub> <span class="hi">∫<sub>a</sub><sup>t</sup> f dx</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Discontinuity in [a,b]</div>
+        <div class="formula">∫<sub>a</sub><sup>b</sup> f dx = lim<sub>t→c⁻</sub> <span class="hi">∫<sub>a</sub><sup>t</sup> f dx</span></div>
+      </div>
+    </div>
+    <p>If the limit exists and is finite, the integral <strong>converges</strong>. Otherwise it <strong>diverges</strong>.</p>
+    <div class="formula-box">
+      <div class="formula-label gold">p-integral test</div>
+      <div class="formula">∫<sub>1</sub><sup>∞</sup> 1/x<sup>p</sup> dx: <span class="hi">converges if p &gt; 1</span>, diverges if p ≤ 1<br>
+      ∫<sub>0</sub><sup>1</sup> 1/x<sup>p</sup> dx: <span class="hi">converges if p &lt; 1</span>, diverges if p ≥ 1</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 7: DIFFERENTIAL EQUATIONS
+════════════════════════════════════════════════════════════ -->
+<div id="u7" class="unit-page">
+  <div class="unit-hero" data-num="7">
+    <div class="unit-tag">Unit 7</div>
+    <h1 class="unit-title">Differential Equations</h1>
+    <p class="unit-desc">Slope fields, separable DEs, Euler's method, and the logistic differential equation.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Slope Fields</div>
+    <p>A slope field represents a DE dy/dx = F(x, y) by drawing short line segments at each point (x, y) with slope F(x, y). Solutions to the DE are curves that follow these segments.</p>
+    <div class="tip-box">Along a horizontal line y = k, if F(x, y) depends only on y, all slopes are equal → horizontal "stripes" in the slope field.</div>
+
+    <div class="section-title">Separable Differential Equations</div>
+    <div class="steps">
+      <div class="step">Separate variables: get all y-terms (including dy) on one side, all x-terms (including dx) on the other.</div>
+      <div class="step">Integrate both sides.</div>
+      <div class="step">Solve for y (if possible).</div>
+      <div class="step">Apply initial condition to find the constant C.</div>
+    </div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Exponential Growth/Decay</div>
+        <div class="formula">dy/dt = <span class="hi">ky</span>  →  y = <span class="hi">Ce<sup>kt</sup></span></div>
+        <div class="formula-note">k &gt; 0: growth. k &lt; 0: decay. C = y(0) = initial value.</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Half-life / Doubling Time</div>
+        <div class="formula">Half-life: t<sub>½</sub> = <span class="hi">ln(2)/|k|</span><br>Doubling: t<sub>d</sub> = <span class="hi">ln(2)/k</span></div>
+      </div>
+    </div>
+
+    <div class="section-title">Euler's Method <span class="tag tag-bc">BC</span></div>
+    <div class="theorem-card blue">
+      <div class="theorem-name">Euler's Method Algorithm</div>
+      <div class="theorem-body">
+        Given dy/dx = F(x, y), starting point (x<sub>0</sub>, y<sub>0</sub>), and step size h:<br><br>
+        <strong>x<sub>n+1</sub> = x<sub>n</sub> + h</strong><br>
+        <strong>y<sub>n+1</sub> = y<sub>n</sub> + h · F(x<sub>n</sub>, y<sub>n</sub>)</strong><br><br>
+        Repeat until the desired x-value is reached.
+      </div>
+    </div>
+    <div class="warn-box">Euler's method is an approximation. Smaller step size h → more accurate but more steps. The approximation follows tangent line segments.</div>
+
+    <div class="section-title">Logistic Differential Equation <span class="tag tag-bc">BC</span></div>
+    <div class="big-formula">
+      <span class="label">Logistic Model</span>
+      dP/dt  =  kP(1 − P/M)
+    </div>
+    <p>Where M = carrying capacity (maximum population), k = growth rate constant, P = population.</p>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Logistic Solution</div>
+        <div class="formula">P(t) = <span class="hi">M / (1 + Ae<sup>−kt</sup>)</span><br>where A = (M − P<sub>0</sub>)/P<sub>0</sub></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Key Properties</div>
+        <div class="formula">
+          Max growth rate at <span class="hi">P = M/2</span><br>
+          lim<sub>t→∞</sub> P(t) = <span class="hi">M</span><br>
+          Inflection point at P = M/2
+        </div>
+      </div>
+    </div>
+    <div class="theorem-card">
+      <div class="theorem-name">Logistic Behavior Summary</div>
+      <div class="theorem-body">
+        • P &lt; M/2: dP/dt increasing → population accelerating<br>
+        • P = M/2: maximum rate of change (inflection point of P vs t)<br>
+        • P &gt; M/2: dP/dt decreasing → population decelerating<br>
+        • P → M: growth rate approaches 0, population approaches carrying capacity
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 8: APPLICATIONS OF INTEGRATION
+════════════════════════════════════════════════════════════ -->
+<div id="u8" class="unit-page">
+  <div class="unit-hero" data-num="8">
+    <div class="unit-tag">Unit 8</div>
+    <h1 class="unit-title">Applications of Integration</h1>
+    <p class="unit-desc">Area between curves, volumes of revolution (disk, washer, shell), arc length, and average value.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Area Between Curves</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Vertical Slices (in x)</div>
+        <div class="formula">A = ∫<sub>a</sub><sup>b</sup> <span class="hi">[top − bottom] dx</span><br>= ∫[f(x) − g(x)] dx</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Horizontal Slices (in y)</div>
+        <div class="formula">A = ∫<sub>c</sub><sup>d</sup> <span class="hi">[right − left] dy</span><br>= ∫[f(y) − g(y)] dy</div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">Find intersection points (set f = g and solve).</div>
+      <div class="step">Determine which function is on top (or right) in the interval.</div>
+      <div class="step">Integrate (top − bottom) or (right − left).</div>
+      <div class="step">If the functions cross, split the integral at each crossing point.</div>
+    </div>
+
+    <div class="section-title">Volumes of Revolution</div>
+    <div class="subsection-title">Disk Method (solid, no hole)</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Rotation about x-axis</div>
+        <div class="formula">V = π ∫<sub>a</sub><sup>b</sup> <span class="hi">[f(x)]² dx</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Rotation about y-axis</div>
+        <div class="formula">V = π ∫<sub>c</sub><sup>d</sup> <span class="hi">[f(y)]² dy</span></div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Washer Method (hollow — region between two curves)</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Rotation about x-axis</div>
+        <div class="formula">V = π ∫<sub>a</sub><sup>b</sup> <span class="hi">([R(x)]² − [r(x)]²) dx</span></div>
+        <div class="formula-note">R = outer radius, r = inner radius</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Rotation about y = k</div>
+        <div class="formula">R(x) = <span class="hi">|top function − k|</span><br>r(x) = <span class="hi">|bottom function − k|</span></div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Shell Method <span class="tag tag-bc">BC</span></div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Rotation about y-axis</div>
+        <div class="formula">V = 2π ∫<sub>a</sub><sup>b</sup> <span class="hi">x · f(x) dx</span></div>
+        <div class="formula-note">Radius = x, height = f(x)</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Rotation about x-axis</div>
+        <div class="formula">V = 2π ∫<sub>c</sub><sup>d</sup> <span class="hi">y · f(y) dy</span></div>
+      </div>
+    </div>
+    <div class="tip-box">Use <strong>disk/washer</strong> when slices are perpendicular to the axis of rotation. Use <strong>shells</strong> when slices are parallel to the axis. Often shells are easier when rotating about y but the function is given in terms of x.</div>
+
+    <div class="section-title">Arc Length <span class="tag tag-bc">BC</span></div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Arc Length (Cartesian)</div>
+        <div class="formula">L = ∫<sub>a</sub><sup>b</sup> <span class="hi">√(1 + [f'(x)]²) dx</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Arc Length (in y)</div>
+        <div class="formula">L = ∫<sub>c</sub><sup>d</sup> <span class="hi">√(1 + [g'(y)]²) dy</span></div>
+      </div>
+    </div>
+
+    <div class="section-title">Average Value of a Function</div>
+    <div class="big-formula">
+      <span class="label">Average Value</span>
+      f<sub>avg</sub>  =  <span style="color:var(--gold)">1/(b−a)</span>  ·  ∫<sub>a</sub><sup>b</sup> f(x) dx
+    </div>
+    <div class="theorem-card green">
+      <div class="theorem-name">Mean Value Theorem for Integrals</div>
+      <div class="theorem-body">If f is continuous on [a, b], there exists c ∈ [a, b] such that<br>
+      <strong>f(c) = f<sub>avg</sub> = (1/(b−a)) ∫<sub>a</sub><sup>b</sup> f(x) dx</strong><br>
+      The function attains its average value at some point in the interval.</div>
+    </div>
+
+    <div class="section-title">Accumulation & Net Change</div>
+    <div class="formula-box">
+      <div class="formula-label gold">Net Change Theorem</div>
+      <div class="formula">∫<sub>a</sub><sup>b</sup> F'(x) dx = <span class="hi">F(b) − F(a)</span>  (net change in F)</div>
+      <div class="formula-note">Total distance = ∫|v(t)| dt  |  Displacement = ∫v(t) dt</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 9: PARAMETRIC, POLAR & VECTORS
+════════════════════════════════════════════════════════════ -->
+<div id="u9" class="unit-page">
+  <div class="unit-hero" data-num="9">
+    <div class="unit-tag">Unit 9 — BC Only</div>
+    <h1 class="unit-title">Parametric, Polar &amp; Vectors</h1>
+    <p class="unit-desc">Calculus with parametric curves, polar coordinates, and vector-valued functions. Derivatives, arc length, area, and motion in the plane.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Parametric Equations</div>
+    <p>A curve is defined by x = f(t) and y = g(t) for t in some interval. The parameter t often represents time.</p>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">First Derivative (slope)</div>
+        <div class="formula">dy/dx = <span class="hi">(dy/dt) / (dx/dt)</span> = ẏ/ẋ</div>
+        <div class="formula-note">Horizontal tangent: dy/dt = 0 (and dx/dt ≠ 0). Vertical tangent: dx/dt = 0 (and dy/dt ≠ 0).</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Second Derivative</div>
+        <div class="formula">d²y/dx² = <span class="hi">d(dy/dx)/dt ÷ (dx/dt)</span></div>
+        <div class="formula-note">= [d/dt(dy/dx)] / (dx/dt)</div>
+      </div>
+    </div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Arc Length</div>
+        <div class="formula">L = ∫<sub>a</sub><sup>b</sup> <span class="hi">√((dx/dt)² + (dy/dt)²) dt</span></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Speed at time t</div>
+        <div class="formula">speed = <span class="hi">√((dx/dt)² + (dy/dt)²)</span></div>
+      </div>
+    </div>
+
+    <div class="section-title">Polar Coordinates</div>
+    <p>Points expressed as (r, θ) where r = distance from origin, θ = angle from positive x-axis.</p>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Conversion to Cartesian</div>
+        <div class="formula">x = <span class="hi">r cos θ</span><br>y = <span class="hi">r sin θ</span><br>r² = x² + y²</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Slope of Polar Curve</div>
+        <div class="formula">dy/dx = <span class="hi">(r'sinθ + rcosθ) / (r'cosθ − rsinθ)</span></div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Area in Polar Coordinates</div>
+    <div class="big-formula">
+      <span class="label">Area enclosed by polar curve r = f(θ)</span>
+      A  =  ½ ∫<sub>α</sub><sup>β</sup>  r²  dθ  =  ½ ∫<sub>α</sub><sup>β</sup>  [f(θ)]²  dθ
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Area between two polar curves</div>
+      <div class="formula">A = ½ ∫<sub>α</sub><sup>β</sup> <span class="hi">([R(θ)]² − [r(θ)]²) dθ</span></div>
+      <div class="formula-note">R = outer curve, r = inner curve. Find α, β by setting R = r.</div>
+    </div>
+
+    <div class="subsection-title">Arc Length in Polar</div>
+    <div class="formula-box">
+      <div class="formula-label gold">Polar Arc Length</div>
+      <div class="formula">L = ∫<sub>α</sub><sup>β</sup> <span class="hi">√(r² + (dr/dθ)²) dθ</span></div>
+    </div>
+
+    <div class="subsection-title">Common Polar Curves to Know</div>
+    <table class="formula-table">
+      <tr><th>Curve</th><th>Equation</th><th>Notes</th></tr>
+      <tr><td>Circle</td><td class="fx">r = a</td><td class="cond">Radius a, centered at origin</td></tr>
+      <tr><td>Circle (x-offset)</td><td class="fx">r = 2a cos θ</td><td class="cond">Diameter 2a along x-axis</td></tr>
+      <tr><td>Cardioid</td><td class="fx">r = a(1 ± cos θ)</td><td class="cond">Heart-shaped curve</td></tr>
+      <tr><td>Limaçon</td><td class="fx">r = a + b cos θ</td><td class="cond">Inner loop if |b| &gt; |a|</td></tr>
+      <tr><td>Rose (n petals)</td><td class="fx">r = a cos(nθ)</td><td class="cond">n petals if n odd, 2n if n even</td></tr>
+      <tr><td>Lemniscate</td><td class="fx">r² = a² cos(2θ)</td><td class="cond">Figure-eight shape</td></tr>
+    </table>
+
+    <div class="section-title">Vector-Valued Functions</div>
+    <p>A vector-valued function describes motion in the plane: <strong>r(t) = ⟨x(t), y(t)⟩</strong>.</p>
+    <div class="formula-grid three">
+      <div class="formula-box">
+        <div class="formula-label gold">Position Vector</div>
+        <div class="formula"><span class="hi">r(t)</span> = ⟨x(t), y(t)⟩</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Velocity Vector</div>
+        <div class="formula"><span class="hi">v(t) = r'(t)</span> = ⟨x'(t), y'(t)⟩</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">Acceleration Vector</div>
+        <div class="formula"><span class="hi">a(t) = v'(t)</span> = ⟨x''(t), y''(t)⟩</div>
+      </div>
+    </div>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Speed</div><div class="formula">|v(t)| = <span class="hi">√(x'² + y'²)</span></div></div>
+      <div class="formula-box"><div class="formula-label">Distance traveled</div><div class="formula">∫<sub>a</sub><sup>b</sup> <span class="hi">|v(t)| dt</span>  (arc length)</div></div>
+      <div class="formula-box"><div class="formula-label">Displacement</div><div class="formula">∫<sub>a</sub><sup>b</sup> <span class="hi">v(t) dt</span>  = ⟨Δx, Δy⟩</div></div>
+      <div class="formula-box"><div class="formula-label">Position from v(t)</div><div class="formula">r(t) = r(t<sub>0</sub>) + <span class="hi">∫<sub>t₀</sub><sup>t</sup> v(s) ds</span></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UNIT 10: SEQUENCES & SERIES
+════════════════════════════════════════════════════════════ -->
+<div id="u10" class="unit-page">
+  <div class="unit-hero" data-num="10">
+    <div class="unit-tag">Unit 10 — BC Only</div>
+    <h1 class="unit-title">Infinite Sequences &amp; Series</h1>
+    <p class="unit-desc">The most BC-heavy unit. Sequences, all convergence tests, power series, Taylor and Maclaurin series, and the Lagrange error bound.</p>
+  </div>
+  <div class="unit-content">
+
+    <div class="section-title">Sequences</div>
+    <p>A sequence {a<sub>n</sub>} converges if lim<sub>n→∞</sub> a<sub>n</sub> = L (a finite number). Otherwise it diverges.</p>
+    <div class="formula-grid two">
+      <div class="formula-box"><div class="formula-label">Geometric Sequence</div><div class="formula">a<sub>n</sub> = a·r<sup>n−1</sup><br>Converges iff <span class="hi">|r| &lt; 1</span></div></div>
+      <div class="formula-box"><div class="formula-label">Key Growth Rates (n→∞)</div><div class="formula">ln n ≪ n<sup>p</sup> ≪ a<sup>n</sup> ≪ n! ≪ n<sup>n</sup></div></div>
+    </div>
+
+    <div class="section-title">Series — Convergence Tests</div>
+
+    <div class="theorem-card">
+      <div class="theorem-name">nth Term Divergence Test</div>
+      <div class="theorem-body">If lim<sub>n→∞</sub> a<sub>n</sub> ≠ 0, then Σa<sub>n</sub> <strong>diverges</strong>.<br>
+      ⚠ If lim a<sub>n</sub> = 0, the test is INCONCLUSIVE — the series may converge or diverge.</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-label gold">Geometric Series <span class="tag tag-key">MOST IMPORTANT</span></div>
+      <div class="formula">Σ<sub>n=0</sub><sup>∞</sup> a·r<sup>n</sup> = <span class="hi">a/(1−r)</span>  if |r| &lt; 1; diverges if |r| ≥ 1</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label gold">p-Series <span class="tag tag-key">MUST KNOW</span></div>
+      <div class="formula">Σ 1/n<sup>p</sup>:  converges if <span class="hi">p &gt; 1</span>, diverges if p ≤ 1<br>Harmonic series Σ1/n diverges (p=1)</div>
+    </div>
+
+    <div class="subsection-title">Integral Test</div>
+    <div class="theorem-card blue">
+      <div class="theorem-name">Integral Test</div>
+      <div class="theorem-body">If f is continuous, positive, and <strong>decreasing</strong> on [1,∞), and a<sub>n</sub> = f(n), then<br>
+      Σa<sub>n</sub> and ∫<sub>1</sub><sup>∞</sup> f(x) dx both converge or both diverge.</div>
+    </div>
+
+    <div class="subsection-title">Comparison Tests</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Direct Comparison Test</div>
+        <div class="formula">
+          0 ≤ a<sub>n</sub> ≤ b<sub>n</sub>:<br>
+          Σb<sub>n</sub> converges <span class="hi">⟹</span> Σa<sub>n</sub> converges<br>
+          Σa<sub>n</sub> diverges <span class="hi">⟹</span> Σb<sub>n</sub> diverges
+        </div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Limit Comparison Test</div>
+        <div class="formula">
+          lim<sub>n→∞</sub> a<sub>n</sub>/b<sub>n</sub> = <span class="hi">L</span>  (0 &lt; L &lt; ∞)<br>
+          Then Σa<sub>n</sub> and Σb<sub>n</sub> <span class="hi">both converge or both diverge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Ratio & Root Tests</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Ratio Test <span class="tag tag-key">KEY for factorials/exponentials</span></div>
+        <div class="formula">L = lim<sub>n→∞</sub> |a<sub>n+1</sub>/a<sub>n</sub>|<br><br>
+          L &lt; 1: <span class="gr">converges absolutely</span><br>
+          L &gt; 1 or ∞: <span class="rd">diverges</span><br>
+          L = 1: <span class="hi">inconclusive</span>
+        </div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Root Test</div>
+        <div class="formula">L = lim<sub>n→∞</sub> <sup>n</sup>√|a<sub>n</sub>| = lim |a<sub>n</sub>|<sup>1/n</sup><br><br>
+          L &lt; 1: converges absolutely<br>
+          L &gt; 1: diverges<br>
+          L = 1: inconclusive
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Alternating Series</div>
+    <div class="theorem-card">
+      <div class="theorem-name">Alternating Series Test (Leibniz Test)</div>
+      <div class="theorem-body">
+        Σ(−1)<sup>n</sup>b<sub>n</sub> converges if: (1) b<sub>n</sub> &gt; 0, (2) b<sub>n+1</sub> ≤ b<sub>n</sub> (decreasing), and (3) lim b<sub>n</sub> = 0.
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label gold">Alternating Series Estimation Theorem <span class="tag tag-key">KEY</span></div>
+      <div class="formula">|error| = |S − S<sub>n</sub>| ≤ <span class="hi">b<sub>n+1</sub></span>  (the first omitted term)</div>
+      <div class="formula-note">The error is bounded by the first unused term (and has the same sign as that term).</div>
+    </div>
+
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label">Absolute Convergence</div>
+        <div class="formula">Σ|a<sub>n</sub>| converges <span class="hi">⟹</span> Σa<sub>n</sub> converges</div>
+        <div class="formula-note">Absolute convergence implies convergence, not vice versa.</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Conditional Convergence</div>
+        <div class="formula">Σa<sub>n</sub> converges but Σ|a<sub>n</sub>| diverges</div>
+        <div class="formula-note">Example: Σ(−1)<sup>n</sup>/n converges (conditionally) by AST.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Which Test to Use? (Decision Guide)</div>
+    <table class="formula-table">
+      <tr><th>Series Looks Like…</th><th>Use This Test</th></tr>
+      <tr><td>Constant ratio: ar<sup>n</sup></td><td class="fx">Geometric Series formula</td></tr>
+      <tr><td>1/n<sup>p</sup></td><td class="fx">p-Series</td></tr>
+      <tr><td>Contains n! or a<sup>n</sup></td><td class="fx">Ratio Test</td></tr>
+      <tr><td>a<sub>n</sub> = f(n) with f integrable</td><td class="fx">Integral Test</td></tr>
+      <tr><td>Similar to a known series</td><td class="fx">Direct or Limit Comparison</td></tr>
+      <tr><td>Alternates sign (−1)<sup>n</sup></td><td class="fx">Alternating Series Test</td></tr>
+      <tr><td>Contains n-th power throughout</td><td class="fx">Root Test</td></tr>
+    </table>
+
+    <div class="section-title">Power Series</div>
+    <div class="big-formula">
+      <span class="label">Power Series centered at x = a</span>
+      Σ<sub>n=0</sub><sup>∞</sup>  c<sub>n</sub>(x − a)<sup>n</sup>  =  c<sub>0</sub> + c<sub>1</sub>(x−a) + c<sub>2</sub>(x−a)² + ...
+    </div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">Radius of Convergence R</div>
+        <div class="formula">Use Ratio Test: R = lim |c<sub>n</sub>/c<sub>n+1</sub>|<br>or R = 1 / lim |c<sub>n</sub>|<sup>1/n</sup></div>
+        <div class="formula-note">Series converges for |x − a| &lt; R, diverges for |x − a| &gt; R. Check endpoints separately!</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Interval of Convergence</div>
+        <div class="formula">I = (a−R, a+R) plus possibly endpoints<br>Check x = a±R with original tests</div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Differentiating/Integrating Power Series</div>
+      <div class="formula">Same radius R. Differentiate/integrate term by term.<br>d/dx[Σc<sub>n</sub>(x−a)<sup>n</sup>] = <span class="hi">Σ n·c<sub>n</sub>(x−a)<sup>n−1</sup></span></div>
+    </div>
+
+    <div class="section-title">Taylor & Maclaurin Series</div>
+    <div class="big-formula">
+      <span class="label">Taylor Series for f centered at x = a</span>
+      f(x) = Σ<sub>n=0</sub><sup>∞</sup>  <span style="color:var(--gold)">f<sup>(n)</sup>(a) / n!</span>  ·  (x − a)<sup>n</sup>
+    </div>
+    <p>A <strong>Maclaurin series</strong> is a Taylor series centered at a = 0.</p>
+
+    <div class="subsection-title">Essential Maclaurin Series — MEMORIZE ALL OF THESE</div>
+    <div class="formula-grid two">
+      <div class="formula-box">
+        <div class="formula-label gold">e<sup>x</sup> — Interval: (−∞, ∞)</div>
+        <div class="formula">e<sup>x</sup> = <span class="hi">Σ x<sup>n</sup>/n!</span> = 1 + x + x²/2! + x³/3! + ...</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">sin(x) — Interval: (−∞, ∞)</div>
+        <div class="formula">sin x = <span class="hi">Σ (−1)<sup>n</sup>x<sup>2n+1</sup>/(2n+1)!</span><br>= x − x³/6 + x⁵/120 − ...</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">cos(x) — Interval: (−∞, ∞)</div>
+        <div class="formula">cos x = <span class="hi">Σ (−1)<sup>n</sup>x<sup>2n</sup>/(2n)!</span><br>= 1 − x²/2 + x⁴/24 − ...</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">1/(1−x) — Interval: (−1, 1)</div>
+        <div class="formula">1/(1−x) = <span class="hi">Σ x<sup>n</sup></span> = 1 + x + x² + x³ + ...</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">ln(1+x) — Interval: (−1, 1]</div>
+        <div class="formula">ln(1+x) = <span class="hi">Σ (−1)<sup>n+1</sup>x<sup>n</sup>/n</span><br>= x − x²/2 + x³/3 − ...</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label gold">arctan(x) — Interval: [−1, 1]</div>
+        <div class="formula">arctan x = <span class="hi">Σ (−1)<sup>n</sup>x<sup>2n+1</sup>/(2n+1)</span><br>= x − x³/3 + x⁵/5 − ...</div>
+      </div>
+    </div>
+    <div class="tip-box">To find series for e<sup>x²</sup>, substitute x² for x in the e<sup>x</sup> series. To integrate sin(x²), substitute x² into sin(x) series and integrate term by term. Substitution is your best friend here!</div>
+
+    <div class="section-title">Lagrange Error Bound (Taylor Remainder)</div>
+    <div class="theorem-card">
+      <div class="theorem-name">Lagrange Error Bound <span class="tag tag-key" style="font-family:sans-serif">KEY AP TOPIC</span></div>
+      <div class="theorem-body">
+        If T<sub>n</sub>(x) is the nth-degree Taylor polynomial for f centered at a, the error satisfies:<br><br>
+        <strong>|f(x) − T<sub>n</sub>(x)| ≤ M · |x − a|<sup>n+1</sup> / (n+1)!</strong><br><br>
+        where M is the <strong>maximum value of |f<sup>(n+1)</sup>|</strong> on the interval between a and x.
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">Find the (n+1)th derivative of f.</div>
+      <div class="step">Find its maximum absolute value M on the interval [a, x] (or [x, a]).</div>
+      <div class="step">Compute: |error| ≤ M · |x − a|<sup>n+1</sup> / (n+1)!</div>
+    </div>
+    <div class="tip-box">For alternating series, the error ≤ the first omitted term (simpler method — use when the series is alternating). Use Lagrange when the series is NOT alternating.</div>
+
+    <div class="section-title">Telescoping Series</div>
+    <div class="formula-box purple">
+      <div class="formula-label">Telescoping Series</div>
+      <div class="formula">Σ (a<sub>n</sub> − a<sub>n+1</sub>) = <span class="pu">a<sub>1</sub> − lim<sub>n→∞</sub> a<sub>n+1</sub></span></div>
+      <div class="formula-note">Partial fractions often reveal telescoping. Example: 1/[n(n+1)] = 1/n − 1/(n+1) → sum = 1.</div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.unit-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      if (item.getAttribute('onclick') === `showPage('${id}')`) {
+        item.classList.add('active');
+      }
+    });
+    document.getElementById('main').scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
